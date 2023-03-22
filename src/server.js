@@ -1,10 +1,11 @@
 import express from 'express'
 import helmet from 'helmet'
 import logger from 'morgan'
+import createError from 'http-errors'
 import { connectDB } from './config/mongoose.js'
 
 try {
-  await connectDB()
+  await connectDB(process.env.DB_CONNECTION_STRING)
 
   const app = express()
 
