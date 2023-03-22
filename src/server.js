@@ -1,8 +1,11 @@
 import express from 'express'
 import helmet from 'helmet'
 import logger from 'morgan'
+import { connectDB } from './config/mongoose.js'
 
 try {
+  await connectDB()
+
   const app = express()
 
   app.use(helmet())
