@@ -1,8 +1,8 @@
 import { MongooseRepositoryBase } from './mongoose-repository-base.js'
-import { Post } from '../models/post.js'
+import { PostModel } from '../models/post-model.js'
 
 export class PostRepository extends MongooseRepositoryBase {
-  constructor (model = Post) {
+  constructor (model = PostModel) {
     super(model)
   }
 }

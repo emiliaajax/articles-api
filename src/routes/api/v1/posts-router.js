@@ -10,4 +10,4 @@ export const router = express.Router()
  */
 const resolvePostsController = (req) => req.app.get('container').resolve('PostsController')
 
-
+router.param('id', (req, res, next, id) => resolvePostsController(req).loadPost(req, res, next, id))

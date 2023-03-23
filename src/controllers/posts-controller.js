@@ -1,7 +1,6 @@
 import createError from 'http-errors'
-import { PostsService } from '../services/posts-service.js'
 
-export class PostsService {
+export class PostsController {
   #service
 
   constructor (service) {
