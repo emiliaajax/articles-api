@@ -1,0 +1,80 @@
+import createError from 'http-errors'
+import { PostsService } from '../services/posts-service.js'
+
+export class PostsService {
+  #service
+
+  constructor (service) {
+    this.#service = service
+  }
+
+  async loadPost (req, res, next, id) {
+    try {
+      const post = await this.#service.getById(id)
+
+      if (!post) {
+        next(createError(404, 'Not found!'))
+        return
+      }
+
+      req.post = post
+
+      next()
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async find (req, res, next) {
+    res.json(req.post)
+  }
+
+  async findAll (req, res, next) {
+    try {
+      const posts = await this.#service.get()
+
+      res.json(posts)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async create (req, res, next) {
+    try {
+      const post = await this.#service.insert({
+        authorID: req.body.authorID,
+        title: req.body.title,
+        text: req.body.text
+      })
+
+      const location = new URL(
+        `${req.protocol}://${req.get('host')}${req.baseUrl}/${post._id}`
+      )
+
+      res
+        .location(location.href)
+        .status(201)
+        .json(post)
+    } catch (error) {
+      const err = createError(error.name === 'ValidationError'
+        ? 400
+        : 500
+      )
+      err.cause = error
+
+      next(err)
+    }
+  }
+
+  async delete (req, res, next) {
+    try {
+      await this.#service.delete(req.params.id)
+
+      res
+        .status(204)
+        .end()
+    } catch (error) {
+      next(error)
+    }
+  }
+}
