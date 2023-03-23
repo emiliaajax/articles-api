@@ -44,4 +44,4 @@ schema.set('timestamps', true)
 schema.set('toObject', convertOptions)
 schema.set('toJSON', convertOptions)
 
-export const TaskModel = mongoose.model('Task', schema)
+export const Post = mongoose.model('Post', schema)
