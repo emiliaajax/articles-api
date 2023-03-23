@@ -1,5 +1,5 @@
 import express from 'express'
-import { router as postsRouter } from './postsRouter.js'
+import { router as postsRouter } from './posts-router.js'
 
 export const router = express.Router()
 

@@ -26,7 +26,6 @@ schema.virtual('id').get(function () {
 })
 
 const convertOptions = {
-  timestamps: true,
   virtuals: true,
   versionKey: false,
   /**
@@ -44,4 +43,4 @@ schema.set('timestamps', true)
 schema.set('toObject', convertOptions)
 schema.set('toJSON', convertOptions)
 
-export const PostModel = mongoose.model('PostModel', schema)
+export const PostModel = mongoose.model('Post', schema)

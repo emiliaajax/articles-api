@@ -8,7 +8,7 @@ const iocContainer = new IoCContainer()
 
 iocContainer.register('ConnectionString', process.env.DB_CONNECTION_STRING)
 
-iocContainer.register('PostModelType', PostModel), { type: true }
+iocContainer.register('PostModelType', PostModel, { type: true })
 
 iocContainer.register('PostRepositorySingleton', PostRepository, {
   dependencies: [

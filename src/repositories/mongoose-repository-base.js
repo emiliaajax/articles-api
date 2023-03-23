@@ -26,7 +26,7 @@ export class MongooseRepositoryBase {
   }
 
   async insert (data) {
-    this.#ensureValidPropertyNames()
+    this.#ensureValidPropertyNames(data)
     return this.#model.create(data)
   }
 
@@ -36,8 +36,8 @@ export class MongooseRepositoryBase {
       .exec()
   }
 
-  async update (id, updateData, options) {
-    this.#ensureValidPropertyNames()
+  async update (id, data, options) {
+    this.#ensureValidPropertyNames(data)
     return this.#model
       .findByIdAndUpdate(id, data, {
         ...options,

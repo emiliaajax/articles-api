@@ -2,6 +2,7 @@ import express from 'express'
 import helmet from 'helmet'
 import logger from 'morgan'
 import createError from 'http-errors'
+import { router } from './routes/router.js'
 import { connectDB } from './config/mongoose.js'
 import { container } from './config/bootstrap.js'
 
@@ -17,6 +18,8 @@ try {
   app.use(logger('dev'))
 
   app.use(express.json())
+
+  app.use('/', router)
 
   app.use(function (err, req, res, next) {
     if (!err.status) {

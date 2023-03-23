@@ -19,6 +19,10 @@ export class MongooseServiceBase {
     return this.#repository.update(id, data)
   }
 
+  async insert (data) {
+    return this.#repository.insert(data)
+  }
+
   async delete (id) {
     return this.#repository.delete()
   }
