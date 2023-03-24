@@ -1,44 +1,38 @@
-import mongoose from 'mongoose'
 
 export class MongooseRepositoryBase {
-  #model
+  _model
   #allowedModelPropertyNames
 
-  /**
-   * Initializes a new instance.
-   *
-   * @param {mongoose.Model} model - A Mongoose model.
-   */
   constructor (model) {
-    this.#model = model
+    this._model = model
   }
 
   async get (filter = null, projection = null, options = null) {
-    return this.#model
+    return this._model
       .find(filter, projection, options)
       .exec()
   }
 
   async getById (id, projection, options) {
-    return this.#model
+    return this._model
       .findById(id, projection, options)
       .exec()
   }
 
   async insert (data) {
-    this.#ensureValidPropertyNames(data)
-    return this.#model.create(data)
+    this._ensureValidPropertyNames(data)
+    return this._model.create(data)
   }
 
   async delete (id, options) {
-    return this.#model
+    return this._model
       .findByIdAndDelete(id, options)
       .exec()
   }
 
   async update (id, data, options) {
-    this.#ensureValidPropertyNames(data)
-    return this.#model
+    this._ensureValidPropertyNames(data)
+    return this._model
       .findByIdAndUpdate(id, data, {
         ...options,
         new: true,
@@ -48,11 +42,10 @@ export class MongooseRepositoryBase {
   }
 
   get allowedModelPropertyNames () {
-    // Lazy loading of the property names.
     if (!this.#allowedModelPropertyNames) {
       const disallowedPropertyNames = ['_id', '__v', 'createdAt', 'updatedAt', 'id']
       this.#allowedModelPropertyNames = Object.freeze(
-        Object.keys(this.#model.schema.tree)
+        Object.keys(this._model.schema.tree)
           .filter(key => !disallowedPropertyNames.includes(key))
       )
     }
@@ -60,11 +53,9 @@ export class MongooseRepositoryBase {
     return this.#allowedModelPropertyNames
   }
 
-  #ensureValidPropertyNames (data) {
+  _ensureValidPropertyNames (data) {
     for (const key of Object.keys(data)) {
       if (!this.allowedModelPropertyNames.includes(key)) {
-        // Fake it a bit to be able to treat this error as
-        // a kind of a Mongoose validation error!
         const error = new Error(`'${key} is not a valid property name.`)
         error.name = 'ValidationError'
         throw error
