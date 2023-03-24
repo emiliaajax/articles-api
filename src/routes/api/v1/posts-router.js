@@ -18,5 +18,4 @@ router.get('/:id', (req, res, next) => resolvePostsController(req).find(req, res
 
 router.post('/', (req, res, next) => resolvePostsController(req).create(req, res, next))
 
-// DELETE tasks/:id
 router.delete('/:id', (req, res, next) => resolvePostsController(req).delete(req, res, next))
