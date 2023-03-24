@@ -41,7 +41,7 @@ export class PostsController {
   async create(req, res, next) {
     try {
       const post = await this.#service.insert({
-        authorID: req.body.authorID,
+        authorID: req.user.id,
         title: req.body.title,
         text: req.body.text
       })
@@ -77,7 +77,7 @@ export class PostsController {
     }
   }
 
-  authenticateJWT (req, res, next) {
+  authenticate (req, res, next) {
     try {
       const [authenticationScheme, token] = req.headers.authorization?.split(' ')
 
