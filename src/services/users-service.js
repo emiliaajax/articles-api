@@ -1,5 +1,6 @@
 import { MongooseServiceBase } from './mongoose-service-base.js'
 import { UserRepository } from '../repositories/user-repository.js'
+import jwt from 'jsonwebtoken'
 
 export class UsersService extends MongooseServiceBase {
   constructor (repository = new UserRepository()) {
@@ -7,7 +8,7 @@ export class UsersService extends MongooseServiceBase {
   }
 
   async authenticate (email, password) {
-    const user = this._repository.authenticate(email, password)
+    const user = await this._repository.authenticate(email, password)
 
     const payload = {
       sub: user.id

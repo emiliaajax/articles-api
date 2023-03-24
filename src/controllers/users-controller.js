@@ -26,10 +26,11 @@ export class UsersController {
 
   async register(req, res, next) {
     try {
-      this.#service.insert({ email: req.body.email, password: req.body.password })
+      await this.#service.insert({ email: req.body.email, password: req.body.password })
 
       res
         .status(201)
+        .end()
     } catch (error) {
       let err = error
       if (err.code === 11000) {
