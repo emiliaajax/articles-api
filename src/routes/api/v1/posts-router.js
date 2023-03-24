@@ -16,6 +16,12 @@ router.get('/', (req, res, next) => resolvePostsController(req).findAll(req, res
 
 router.get('/:id', (req, res, next) => resolvePostsController(req).find(req, res, next))
 
-router.post('/', (req, res, next) => resolvePostsController(req).create(req, res, next))
+router.post('/',
+  (req, res, next) => resolvePostsController(req).authenticate(req, res, next),
+  (req, res, next) => resolvePostsController(req).create(req, res, next)
+)
 
-router.delete('/:id', (req, res, next) => resolvePostsController(req).delete(req, res, next))
+router.delete('/:id',
+  (req, res, next) => resolvePostsController(req).authenticate(req, res, next),
+  (req, res, next) => resolvePostsController(req).delete(req, res, next)
+)

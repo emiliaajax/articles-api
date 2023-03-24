@@ -3,11 +3,11 @@ import createError from 'http-errors'
 export class PostsController {
   #service
 
-  constructor (service) {
+  constructor(service) {
     this.#service = service
   }
 
-  async loadPost (req, res, next, id) {
+  async loadPost(req, res, next, id) {
     try {
       const post = await this.#service.getById(id)
 
@@ -24,11 +24,11 @@ export class PostsController {
     }
   }
 
-  async find (req, res, next) {
+  async find(req, res, next) {
     res.json(req.post)
   }
 
-  async findAll (req, res, next) {
+  async findAll(req, res, next) {
     try {
       const posts = await this.#service.get()
 
@@ -38,7 +38,7 @@ export class PostsController {
     }
   }
 
-  async create (req, res, next) {
+  async create(req, res, next) {
     try {
       const post = await this.#service.insert({
         authorID: req.body.authorID,
@@ -65,7 +65,7 @@ export class PostsController {
     }
   }
 
-  async delete (req, res, next) {
+  async delete(req, res, next) {
     try {
       await this.#service.delete(req.params.id)
 
@@ -74,6 +74,21 @@ export class PostsController {
         .end()
     } catch (error) {
       next(error)
+    }
+  }
+
+  authenticateJWT (req, res, next) {
+    try {
+      const [authenticationScheme, token] = req.headers.authorization?.split(' ')
+
+      req.user = this.#service.authenticateJWT(authenticationScheme, token)
+
+      next()
+    } catch (error) {
+      const err = createError(401)
+      err.message = 'Access token invalid or not provided.'
+      err.cause = error
+      next(err)
     }
   }
 }
