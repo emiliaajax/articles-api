@@ -11,8 +11,6 @@ export class UsersController {
     try {
       const accessToken = await this.#service.authenticate(req.body.email, req.body.password)
 
-      console.log(accessToken)
-
       res
         .status(201)
         .json(accessToken)

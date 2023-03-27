@@ -30,9 +30,44 @@ export class PostsController {
 
   async findAll(req, res, next) {
     try {
-      const posts = await this.#service.get()
+      const posts = await this.#service.get(req.query.page, req.query.per_page)
 
-      res.json(posts)
+      const postLinks = posts.map((post) => ({
+        href: `${req.protocol}://${req.get('host')}${req.baseUrl}/${post.id}`,
+        rel: 'post',
+        method: 'GET'
+      }))
+
+      const response = {
+        posts,
+        links: {
+          self: {
+            href: `${req.protocol}://${req.get('host')}${req.baseUrl}`,
+            rel: 'self',
+            method: 'GET'
+          },
+          posts: postLinks
+        }
+      }
+
+      if (req.query.page > 1) {
+        response.links.prevPage = {
+          href: `${req.protocol}://${req.get('host')}${req.baseUrl}/?page=${parseInt(req.query.page) - 1}&per_page=${req.query.per_page || 20}`,
+          rel: 'previous',
+          method: 'GET'
+        }
+      }
+
+      if (parseInt(req.query.page) < parseInt(Math.ceil(await this.#service.countTotalPosts() / (req.query.per_page || 20)))) {
+        response.links.nextPage = {
+          href: `${req.protocol}://${req.get('host')}${req.baseUrl}/?page=${parseInt(req.query.page) + 1}&per_page=${req.query.per_page || 20}`,
+          rel: 'next',
+          method: 'GET'
+        }
+      }
+
+      res
+        .json(response)
     } catch (error) {
       next(error)
     }
