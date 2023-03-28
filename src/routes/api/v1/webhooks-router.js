@@ -10,4 +10,4 @@ export const router = express.Router()
  */
 const resolveWebhooksController = (req) => req.app.get('container').resolve('WebhooksController')
 
-router.post('/register', (req, res, next) => resolveWebhooksController(req).register(req, res, next))
+router.post('/', (req, res, next) => resolveWebhooksController(req).register(req, res, next))

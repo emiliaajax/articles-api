@@ -8,7 +8,7 @@ export class WebhooksController {
 
   async register(req, res, next) {
     try {
-      this.#service.insert(req.body.url)
+      await this.#service.insert(req.body.url)
 
       res
         .status(201)

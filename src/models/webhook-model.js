@@ -3,7 +3,9 @@ import mongoose from 'mongoose'
 // Create a schema.
 const schema = new mongoose.Schema({
   url: {
-    type: String
+    type: String,
+    required: true,
+    unique: true,
   }
 })
 

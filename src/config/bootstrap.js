@@ -9,7 +9,7 @@ import { UserRepository } from '../repositories/user-repository.js'
 import { WebhookRepository } from '../repositories/webhook-repository.js'
 import { PostsService } from '../services/posts-service.js'
 import { UsersService } from '../services/users-service.js'
-import { WebhooksService } from '../services/webhook-service.js'
+import { WebhooksService } from '../services/webhooks-service.js'
 import { IoCContainer } from '../util/IoCContainer.js'
 
 const iocContainer = new IoCContainer()
