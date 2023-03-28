@@ -64,7 +64,8 @@ iocContainer.register('WebhooksServiceSingleton', WebhooksService, {
 
 iocContainer.register('PostsController', PostsController, {
   dependencies: [
-    'PostsServiceSingleton'
+    'PostsServiceSingleton',
+    'WebhooksServiceSingleton'
   ]
 })
 

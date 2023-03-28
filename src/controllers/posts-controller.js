@@ -2,9 +2,11 @@ import createError from 'http-errors'
 
 export class PostsController {
   #service
+  #webhooksService
 
-  constructor(service) {
+  constructor(service, webhooksService) {
     this.#service = service
+    this.#webhooksService = webhooksService
   }
 
   async loadPost(req, res, next, id) {
@@ -101,6 +103,10 @@ export class PostsController {
         text: req.body.text
       })
 
+      if (post) {
+        await this.#webhooksService.send(post)
+      }
+
       const location = new URL(
         `${req.protocol}://${req.get('host')}${req.baseUrl}/${post._id}`
       )
@@ -132,11 +138,11 @@ export class PostsController {
     }
   }
 
-  authenticate (req, res, next) {
+  async authenticate (req, res, next) {
     try {
       const [authenticationScheme, token] = req.headers.authorization?.split(' ')
 
-      req.user = this.#service.authenticateJWT(authenticationScheme, token)
+      req.user = await this.#service.authenticateJWT(authenticationScheme, token)
 
       next()
     } catch (error) {
