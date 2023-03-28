@@ -66,6 +66,26 @@ export class PostsController {
         }
       }
 
+      if (req.user) {
+        response.links.createPost = {
+          href: `${req.protocol}://${req.get('host')}${req.baseUrl}/`,
+          rel: 'create',
+          method: 'POST'
+        }
+      } else {
+        response.links.register = {
+          href: `${req.protocol}://${req.get('host')}${req.baseUrl}/users/register`,
+          rel: 'register',
+          method: 'POST'
+        }
+
+        response.links.login = {
+          href: `${req.protocol}://${req.get('host')}${req.baseUrl}/users/login`,
+          rel: 'login',
+          method: 'POST'
+        }
+      }
+
       res
         .json(response)
     } catch (error) {
