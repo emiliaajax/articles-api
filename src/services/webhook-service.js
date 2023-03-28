@@ -10,7 +10,7 @@ export class WebhooksService extends MongooseServiceBase {
     try {
       const validUrl = new URL(url)
 
-      this._repository.insert({ url })
+      await this._repository.insert({ validUrl })
     } catch (error) {
       throw new Error('Invalid url')
     }
