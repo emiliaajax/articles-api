@@ -18,6 +18,8 @@ const iocContainer = new IoCContainer()
 
 iocContainer.register('ConnectionString', process.env.DB_CONNECTION_STRING)
 iocContainer.register('BaseURL', process.env.BASE_URL)
+iocContainer.register('ArticlesEndpoint', '/articles')
+iocContainer.register('UsersEndpoint', '/users')
 
 iocContainer.register('LinkBuilder', LinkBuilder, {
   dependencies: [
@@ -81,14 +83,16 @@ iocContainer.register('PostsController', PostsController, {
   dependencies: [
     'PostsServiceSingleton',
     'WebhooksServiceSingleton',
-    'LinkBuilder'
+    'LinkBuilder',
+    'ArticlesEndpoint'
   ]
 })
 
 iocContainer.register('UsersController', UsersController, {
   dependencies: [
     'UsersServiceSingleton',
-    'LinkBuilder'
+    'LinkBuilder',
+    'UsersEndpoint'
   ]
 })
 
