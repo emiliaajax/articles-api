@@ -10,7 +10,7 @@ export const router = express.Router()
  */
 const resolveArticlesController = (req) => req.app.get('container').resolve('ArticlesController')
 
-router.param('id', (req, res, next, id) => resolveArticlesController(req).loadPost(req, res, next, id))
+router.param('id', (req, res, next, id) => resolveArticlesController(req).loadArticle(req, res, next, id))
 
 router.get('/', (req, res, next) => resolveArticlesController(req).findAll(req, res, next))
 
@@ -23,10 +23,12 @@ router.post('/',
 
 router.put('/:id',
   (req, res, next) => resolveArticlesController(req).authenticate(req, res, next),
+  (req, res, next) => resolveArticlesController(req).authorize(req, res, next),
   (req, res, next) => resolveArticlesController(req).update(req, res, next)
 )
 
 router.delete('/:id',
   (req, res, next) => resolveArticlesController(req).authenticate(req, res, next),
+  (req, res, next) => resolveArticlesController(req).authorize(req, res, next),
   (req, res, next) => resolveArticlesController(req).delete(req, res, next)
 )

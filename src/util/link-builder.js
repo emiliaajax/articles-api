@@ -78,7 +78,7 @@ export class LinkBuilder {
    * @param {string} [url=''] The URL for the articles page link.
    */
   addArticlesPageLink(url = '') {
-    this.#links.article = {
+    this.#links.articles = {
       href: `${this.#baseUrl}${url}`,
       rel: 'articles-page',
       method: 'GET'

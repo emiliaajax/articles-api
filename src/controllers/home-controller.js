@@ -46,7 +46,7 @@ export class HomeController {
    */
   index (req, res, next) {
     try {
-      this.#linkBuilder.addSelfLinkGetMethod()
+      this.#linkBuilder.addSelfLink('', 'GET')
       this.#linkBuilder.addArticlesPageLink(this.#articlesEndpoint)
       this.#linkBuilder.addCreateArticleLink(this.#articlesEndpoint)
       this.#linkBuilder.addRegisterUserLink(`${this.#usersEndpoint}/register`)

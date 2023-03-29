@@ -47,6 +47,20 @@ export class ArticlesController {
   }
 
   /**
+   * Authorizes the user.
+   *
+   * @param {object} req Express request object.
+   * @param {object} res Express response object.
+   * @param {Function} next Express next middleware function.
+   */
+  async authorize (req, res, next) {
+    if (req.user.id !== req.article.authorID) {
+      next(createError(403))
+    }
+    next()
+  }
+
+  /**
    * Add article matching id to the request object.
    *
    * @param {object} req The Express request object.
@@ -54,16 +68,16 @@ export class ArticlesController {
    * @param {Function} next Express next middleware function.
    * @param {string} id The id for the article to load.
    */
-  async loadPost(req, res, next, id) {
+  async loadArticle(req, res, next, id) {
     try {
-      const post = await this.#articlesService.getById(id)
+      const article = await this.#articlesService.getById(id)
 
-      if (!post) {
+      if (!article) {
         next(createError(404, 'Not found!'))
         return
       }
 
-      req.post = post
+      req.article = article
 
       next()
     } catch (error) {
@@ -84,7 +98,7 @@ export class ArticlesController {
     this.#linkBuilder.addDeleteArticleLink(`${this.#endpoint}${req.url}`)
 
     const response = {
-      post: req.post,
+      article: req.article,
       _links: this.#linkBuilder.build()
     }
 
@@ -108,10 +122,10 @@ export class ArticlesController {
       const page = parseInt(req.query.page) || 1
       const perPage = parseInt(req.query.per_page) || 20
 
-      const posts = await this.#articlesService.get(page, perPage)
+      const articles = await this.#articlesService.get(page, perPage)
 
       this.#linkBuilder.addSelfLink(`${this.#endpoint}`, 'GET')
-      this.#linkBuilder.addArticleLinks(`${this.#endpoint}`, posts)
+      this.#linkBuilder.addArticleLinks(`${this.#endpoint}`, articles)
 
       if (page > 1) {
         this.#linkBuilder.addPrevPageLink(`${this.#endpoint}/?page=${page - 1}&per_page=${perPage}}`)
@@ -122,7 +136,7 @@ export class ArticlesController {
       }
 
       const response = {
-        posts,
+        articles,
         _links: this.#linkBuilder.build()
       }
 
@@ -143,7 +157,7 @@ export class ArticlesController {
    */
   async create(req, res, next) {
     try {
-      const post = await this.#articlesService.insert({
+      const article = await this.#articlesService.insert({
         authorID: req.user.id,
         title: req.body.title,
         text: req.body.text
@@ -151,19 +165,19 @@ export class ArticlesController {
 
       this.#linkBuilder.addSelfLink(`${this.#endpoint}`, 'POST')
 
-      this.#linkBuilder.addGetArticleLink(`${this.#endpoint}/${post.id}`)
-      this.#linkBuilder.addUpdateArticleLink(`${this.#endpoint}/${post.id}`)
-      this.#linkBuilder.addDeleteArticleLink(`${this.#endpoint}/${post.id}`)
+      this.#linkBuilder.addGetArticleLink(`${this.#endpoint}/${article.id}`)
+      this.#linkBuilder.addUpdateArticleLink(`${this.#endpoint}/${article.id}`)
+      this.#linkBuilder.addDeleteArticleLink(`${this.#endpoint}/${article.id}`)
 
       const response = {
-        post,
+        article,
         _links: this.#linkBuilder.build()
       }
 
       await this.#webhooksService.send(response, 'article-created')
 
       const location = new URL(
-        `${req.protocol}://${req.get('host')}${req.baseUrl}/${post.id}`
+        `${req.protocol}://${req.get('host')}${req.baseUrl}/${article.id}`
       )
 
       res
@@ -190,6 +204,7 @@ export class ArticlesController {
     await this.#articlesService.update(req.params.id, req.body)
 
     this.#linkBuilder.addSelfLink(`${this.#endpoint}/${req.params.id}`, 'PUT')
+
     this.#linkBuilder.addGetArticleLink(`${this.#endpoint}/${req.params.id}`)
     this.#linkBuilder.addUpdateArticleLink(`${this.#endpoint}/${req.params.id}`)
     this.#linkBuilder.addDeleteArticleLink(`${this.#endpoint}/${req.params.id}`)
