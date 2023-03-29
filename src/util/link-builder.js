@@ -2,11 +2,27 @@
 export class LinkBuilder {
   #links = {}
 
-  addSelfLink(url) {
+  addSelfLinkGetMethod(url) {
     this.#links.self = {
       href: url,
       rel: 'self',
       method: 'GET'
+    }
+  }
+
+  addSelfLinkPostMethod(url) {
+    this.#links.self = {
+      href: url,
+      rel: 'self',
+      method: 'POST'
+    }
+  }
+
+  addSelfLinkPutMethod(url) {
+    this.#links.self = {
+      href: url,
+      rel: 'self',
+      method: 'PUT'
     }
   }
 
@@ -50,6 +66,22 @@ export class LinkBuilder {
     }
   }
 
+  addUpdateArticleLink(url) {
+    this.#links.updateArticle = {
+      href: url,
+      rel: 'update-article',
+      method: 'PUT'
+    }
+  }
+
+  addDeleteArticleLink(url) {
+    this.#links.deleteArticle = {
+      href: url,
+      rel: 'delete-article',
+      method: 'DELETE'
+    }
+  }
+
   addRegisterUserLink(url) {
     this.#links.register = {
       href: url,
@@ -67,10 +99,12 @@ export class LinkBuilder {
   }
 
   build() {
-    return this.#links
+    const links = Object.assign({}, this.#links)
+    this.#links = {}
+    return links
   }
 
-  resetLinks() {
-    this.#links = {}
-  }
+  // reset() {
+  //   this.#links = {}
+  // }
 }

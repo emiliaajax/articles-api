@@ -29,14 +29,14 @@ export class PostsController {
   }
 
   async find(req, res, next) {
-    this.#linkBuilder.addSingleArticleLink(`${req.protocol}://${req.get('host')}${req.baseUrl}/${req.post.id}`)
+    this.#linkBuilder.addSelfLinkGetMethod(`${req.protocol}://${req.get('host')}${req.originalUrl}`)
+    this.#linkBuilder.addUpdateArticleLink(`${req.protocol}://${req.get('host')}${req.originalUrl}`)
+    this.#linkBuilder.addDeleteArticleLink(`${req.protocol}://${req.get('host')}${req.originalUrl}`)
 
-    response = {
+    const response = {
       post: req.post,
       _links: this.#linkBuilder.build()
     }
-
-    this.#linkBuilder.reset()
 
     res.json(response)
   }
@@ -49,7 +49,7 @@ export class PostsController {
 
       const posts = await this.#service.get(page, perPage)
 
-      this.#linkBuilder.addSelfLink(`${hostUrl}${req.baseUrl}`)
+      this.#linkBuilder.addSelfLinkGetMethod(`${hostUrl}${req.baseUrl}`)
       this.#linkBuilder.addArticleLinks(`${hostUrl}${req.baseUrl}`, posts)
 
       if (page > 1) {
@@ -72,8 +72,6 @@ export class PostsController {
         _links: this.#linkBuilder.build()
       }
 
-      this.#linkBuilder.reset()
-
       res
         .json(response)
     } catch (error) {
@@ -89,15 +87,13 @@ export class PostsController {
         text: req.body.text
       })
 
-      this.#linkBuilder.addSelfLink(`${req.protocol}://${req.get('host')}${req.baseUrl}`)
+      this.#linkBuilder.addSelfLinkPostMethod(`${req.protocol}://${req.get('host')}${req.baseUrl}/`)
       this.#linkBuilder.addSingleArticleLink(`${req.protocol}://${req.get('host')}${req.baseUrl}/${post.id}`)
 
       const response = {
         post,
         _links: this.#linkBuilder.build()
       }
-
-      this.#linkBuilder.reset()
 
       await this.#webhooksService.send(response)
 
@@ -108,7 +104,30 @@ export class PostsController {
       res
         .location(location.href)
         .status(201)
-        .json(post)
+        .json(response)
+    } catch (error) {
+      const err = createError(error.name === 'ValidationError' ? 400 : 500)
+      err.cause = error
+
+      next(err)
+    }
+  }
+
+  async update(req, res, next) {
+    try {
+    const updatedPost = this.#service.update(req.params.id)
+
+    this.#linkBuilder.addSelfLinkPutMethod(`${req.protocol}://${req.get('host')}${req.baseUrl}/${updatedPost.id}`)
+    this.#linkBuilder.addSingleArticleLink(`${req.protocol}://${req.get('host')}${req.baseUrl}/${updatedPost.id}`)
+
+    const response = {
+      updatedPost,
+      _links: this.#linkBuilder.build()
+    }
+
+    res
+      .status(201)
+      .json(response)
     } catch (error) {
       const err = createError(error.name === 'ValidationError' ? 400 : 500)
       err.cause = error

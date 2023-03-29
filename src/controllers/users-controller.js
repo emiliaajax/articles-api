@@ -2,9 +2,11 @@ import createError from 'http-errors'
 
 export class UsersController {
   #service
+  #linkBuilder
 
-  constructor (service) {
+  constructor (service, linkBuilder) {
     this.#service = service
+    this.#linkBuilder = linkBuilder
   }
 
   async login(req, res, next) {
@@ -25,10 +27,19 @@ export class UsersController {
   async register(req, res, next) {
     try {
       await this.#service.insert({ email: req.body.email, password: req.body.password })
+  
+      this.#linkBuilder.addSelfLinkPostMethod(`${req.protocol}://${req.get('host')}${req.baseUrl}${req.route.path}`)
+      this.#linkBuilder.addLoginUserLink(`${req.protocol}://${req.get('host')}${req.baseUrl}/login`)
+
+      const response = {
+        _links: this.#linkBuilder.build()
+      }
+
+      this.#linkBuilder.reset()
 
       res
         .status(201)
-        .end()
+        .json(response)
     } catch (error) {
       let err = error
       if (err.code === 11000) {
