@@ -3,10 +3,12 @@ import createError from 'http-errors'
 export class PostsController {
   #service
   #webhooksService
+  #linkBuilder
 
-  constructor(service, webhooksService) {
+  constructor(service, webhooksService, linkBuilder) {
     this.#service = service
     this.#webhooksService = webhooksService
+    this.#linkBuilder = linkBuilder
   }
 
   async loadPost(req, res, next, id) {
@@ -27,65 +29,45 @@ export class PostsController {
   }
 
   async find(req, res, next) {
-    res.json(req.post)
+    this.#linkBuilder.addSingleArticleLink(`${req.protocol}://${req.get('host')}${req.baseUrl}/${req.post.id}`)
+
+    response = {
+      post: req.post,
+      _links: this.#linkBuilder.build()
+    }
+
+    res.json(response)
   }
 
   async findAll(req, res, next) {
     try {
-      const posts = await this.#service.get(req.query.page, req.query.per_page)
+      const hostUrl = `${req.protocol}://${req.get('host')}`
+      const page = parseInt(req.query.page) || 1
+      const perPage = parseInt(req.query.per_page) || 20
 
-      const postLinks = posts.map((post) => ({
-        href: `${req.protocol}://${req.get('host')}${req.baseUrl}/${post.id}`,
-        rel: 'post',
-        method: 'GET'
-      }))
+      const posts = await this.#service.get(page, perPage)
 
-      const response = {
-        posts,
-        links: {
-          self: {
-            href: `${req.protocol}://${req.get('host')}${req.baseUrl}`,
-            rel: 'self',
-            method: 'GET'
-          },
-          posts: postLinks
-        }
+      this.#linkBuilder.addSelfLink(`${hostUrl}${req.baseUrl}`)
+      this.#linkBuilder.addArticleLinks(`${hostUrl}${req.baseUrl}`, posts)
+
+      if (page > 1) {
+        this.#linkBuilder.addPrevPageLink(`${hostUrl}${req.baseUrl}/?page=${page - 1}&per_page=${perPage}}`)
       }
 
-      if (req.query.page > 1) {
-        response.links.prevPage = {
-          href: `${req.protocol}://${req.get('host')}${req.baseUrl}/?page=${parseInt(req.query.page) - 1}&per_page=${req.query.per_page || 20}`,
-          rel: 'previous',
-          method: 'GET'
-        }
-      }
-
-      if (parseInt(req.query.page) < parseInt(Math.ceil(await this.#service.countTotalPosts() / (req.query.per_page || 20)))) {
-        response.links.nextPage = {
-          href: `${req.protocol}://${req.get('host')}${req.baseUrl}/?page=${parseInt(req.query.page) + 1}&per_page=${req.query.per_page || 20}`,
-          rel: 'next',
-          method: 'GET'
-        }
+      if (page < await this.#service.getTotalNumberOfPages(perPage)) {
+        this.#linkBuilder.addNextPageLink(`${hostUrl}${req.baseUrl}/?page=${page + 1}&per_page=${perPage}`)
       }
 
       if (req.user) {
-        response.links.createPost = {
-          href: `${req.protocol}://${req.get('host')}${req.baseUrl}/`,
-          rel: 'create',
-          method: 'POST'
-        }
+        this.#linkBuilder.addCreateArticleLink(`${hostUrl}${req.baseUrl}/`)
       } else {
-        response.links.register = {
-          href: `${req.protocol}://${req.get('host')}${req.baseUrl}/users/register`,
-          rel: 'register',
-          method: 'POST'
-        }
+        this.#linkBuilder.addRegisterUserLink(`${hostUrl}${req.baseUrl}/users/register`)
+        this.#linkBuilder.addLoginUserLink(`${hostUrl}${req.baseUrl}/users/login`)
+      }
 
-        response.links.login = {
-          href: `${req.protocol}://${req.get('host')}${req.baseUrl}/users/login`,
-          rel: 'login',
-          method: 'POST'
-        }
+      const response = {
+        posts,
+        _links: this.#linkBuilder.build()
       }
 
       res
@@ -103,25 +85,15 @@ export class PostsController {
         text: req.body.text
       })
 
+      this.#linkBuilder.addSelfLink(`${req.protocol}://${req.get('host')}${req.baseUrl}`)
+      this.#linkBuilder.addSingleArticleLink(`${req.protocol}://${req.get('host')}${req.baseUrl}/${post.id}`)
+
       const response = {
         post,
-        links: {
-          self: {
-            href: `${req.protocol}://${req.get('host')}${req.baseUrl}`,
-            rel: 'self',
-            method: 'POST'
-          },
-          post: {
-            href: `${req.protocol}://${req.get('host')}${req.baseUrl}/${post.id}`,
-            rel: 'new-post',
-            method: 'GET'
-          }
-        }
+        _links: this.#linkBuilder.build()
       }
 
-      if (response) {
-        await this.#webhooksService.send(response)
-      }
+      await this.#webhooksService.send(response)
 
       const location = new URL(
         `${req.protocol}://${req.get('host')}${req.baseUrl}/${post.id}`
@@ -132,10 +104,7 @@ export class PostsController {
         .status(201)
         .json(post)
     } catch (error) {
-      const err = createError(error.name === 'ValidationError'
-        ? 400
-        : 500
-      )
+      const err = createError(error.name === 'ValidationError' ? 400 : 500)
       err.cause = error
 
       next(err)

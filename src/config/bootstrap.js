@@ -10,11 +10,14 @@ import { WebhookRepository } from '../repositories/webhook-repository.js'
 import { PostsService } from '../services/posts-service.js'
 import { UsersService } from '../services/users-service.js'
 import { WebhooksService } from '../services/webhooks-service.js'
-import { IoCContainer } from '../util/IoCContainer.js'
+import { IoCContainer } from '../util/ioc-container.js'
+import { LinkBuilder } from '../util/link-builder.js'
 
 const iocContainer = new IoCContainer()
 
 iocContainer.register('ConnectionString', process.env.DB_CONNECTION_STRING)
+
+iocContainer.register('LinkBuilder', LinkBuilder)
 
 iocContainer.register('PostModelType', PostModel, { type: true })
 iocContainer.register('UserModelType', UserModel, { type: true })
@@ -65,7 +68,8 @@ iocContainer.register('WebhooksServiceSingleton', WebhooksService, {
 iocContainer.register('PostsController', PostsController, {
   dependencies: [
     'PostsServiceSingleton',
-    'WebhooksServiceSingleton'
+    'WebhooksServiceSingleton',
+    'LinkBuilder'
   ]
 })
 

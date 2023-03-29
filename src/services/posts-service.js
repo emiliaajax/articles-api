@@ -8,10 +8,7 @@ export class PostsService extends MongooseServiceBase {
   }
 
   // Override
-  async get (page = "1", perPage = "20") {
-    page = parseInt(page)
-    perPage = parseInt(perPage)
-
+  async get (page, perPage) {
     if (perPage > 100) {
       perPage = 100
     }
@@ -26,8 +23,10 @@ export class PostsService extends MongooseServiceBase {
     return this._repository.get(filter, projection, options)
   }
 
-  async countTotalPosts(filter) {
-    return this._repository.count(filter)
+  async getTotalNumberOfPages(perPage, filter) {
+    const totalNumberOfPosts = this._repository.count(filter)
+
+    return Math.ceil(totalNumberOfPosts / perPage)
   }
 
   authenticateJWT(authenticationScheme, token) {
