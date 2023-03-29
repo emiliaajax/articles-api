@@ -1,18 +1,33 @@
 import createError from 'http-errors'
 import { ArticlesService } from '../services/articles-service.js'
+import { WebhooksService } from '../services/webhooks-service.js'
 import { LinkBuilder } from '../util/link-builder.js'
 
 export class ArticlesController {
+  /**
+   * The articles service.
+   */
   #articlesService
+  /**
+   * The webhooks service.
+   */
   #webhooksService
+  /**
+   * The link builder.
+   */
   #linkBuilder
+  /**
+   * The articles endpoint.
+   */
   #endpoint
 
   /**
    * Initializes a new instance.
    *
-   * @param {LinkBuilder} linkBuilder A link builder instantiated from a class with the same capabilites as LinkBuilder.
-   * @param {string} endpoint The endpoint.
+   * @param {ArticlesService} articlesService Instanse from a class with the same capabilities as a ArticlesService.
+   * @param {WebhooksService} webhooksService Instanse from a class with the same capabilities as a WebhooksService.
+   * @param {LinkBuilder} linkBuilder Instansemfrom a class with the same capabilites as LinkBuilder.
+   * @param {string} endpoint The endpoint to the articles.
    */
   constructor(articlesService, webhooksService, linkBuilder = new LinkBuilder(process.env.BASE_URL), endpoint) {
     this.#articlesService = articlesService
@@ -21,6 +36,14 @@ export class ArticlesController {
     this.#endpoint = endpoint
   }
 
+  /**
+   * Add article matching id to the request object.
+   *
+   * @param {object} req The Express request object.
+   * @param {object} res The Express response object.
+   * @param {Function} next Express next middleware function.
+   * @param {string} id The id for the article to load.
+   */
   async loadPost(req, res, next, id) {
     try {
       const post = await this.#articlesService.getById(id)
@@ -38,6 +61,13 @@ export class ArticlesController {
     }
   }
 
+  /**
+   * Sends a JSON response containing one article and links to related resources.
+   * 
+   * @param {object} req Express request object.
+   * @param {object} res Express response object.
+   * @param {Function} next Express next middleware function.
+   */
   async find(req, res, next) {
     this.#linkBuilder.addSelfLinkGetMethod(`${this.#endpoint}${req.url}`)
     this.#linkBuilder.addUpdateArticleLink(`${this.#endpoint}${req.url}`)
@@ -51,6 +81,18 @@ export class ArticlesController {
     res.json(response)
   }
 
+  /**
+   * Sends a JSON response containing articles for page with a specific number of articles per page 
+   * and links to related resources.
+   *
+   * Default page is 1.
+   * Default articles per page is 20.
+   * Maximum articles per page is 100.
+   * 
+   * @param {object} req Express request object.
+   * @param {object} res Express response object.
+   * @param {Function} next Express next middleware function.
+   */
   async findAll(req, res, next) {
     try {
       const page = parseInt(req.query.page) || 1
@@ -81,6 +123,13 @@ export class ArticlesController {
     }
   }
 
+  /**
+   * Sends a JSON response containing the newly created article and links to related resources.
+   * 
+   * @param {object} req Express request object.
+   * @param {object} res Express response object.
+   * @param {Function} next Express next middleware function.
+   */
   async create(req, res, next) {
     try {
       const post = await this.#articlesService.insert({
@@ -118,6 +167,13 @@ export class ArticlesController {
     }
   }
 
+  /**
+   * Updates an article and sends JSON with related links.
+   *
+   * @param {object} req Express request object.
+   * @param {object} res Express response object.
+   * @param {Function} next Express next middleware function.
+   */
   async update(req, res, next) {
     try {
     await this.#articlesService.update(req.params.id, req.body)
@@ -140,6 +196,13 @@ export class ArticlesController {
     }
   }
 
+  /**
+   * Deletes an article.
+   *
+   * @param {object} req Express request object. 
+   * @param {object} res Express response object.
+   * @param {Function} next Express next middleware function.
+   */
   async delete(req, res, next) {
     try {
       await this.#articlesService.delete(req.params.id)
@@ -152,6 +215,13 @@ export class ArticlesController {
     }
   }
 
+  /**
+   * Authenticates a user.
+   *
+   * @param {object} req Express request object.
+   * @param {object} res Express response object.
+   * @param {Function} next Express next middleware function.
+   */
   async authenticate (req, res, next) {
     try {
       const [authenticationScheme, token] = req.headers.authorization?.split(' ')
