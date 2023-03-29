@@ -50,7 +50,7 @@ export class UsersController {
     try {
       const accessToken = await this.#usersService.authenticate(req.body.email, req.body.password)
 
-      this.#linkBuilder.addSelfLinkPostMethod(`${this.#endpoint}${req.route.path}`)
+      this.#linkBuilder.addSelfLink(`${this.#endpoint}${req.route.path}`, 'POST')
       this.#linkBuilder.addAPIEntrypointLink()
 
       const response = {
@@ -80,7 +80,7 @@ export class UsersController {
     try {
       await this.#usersService.insert({ email: req.body.email, password: req.body.password })
   
-      this.#linkBuilder.addSelfLinkPostMethod(`${this.#endpoint}${req.route.path}`)
+      this.#linkBuilder.addSelfLink(`${this.#endpoint}${req.route.path}`, 'POST')
       this.#linkBuilder.addLoginUserLink(`${this.#endpoint}/login`)
 
       const response = {

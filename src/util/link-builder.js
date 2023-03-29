@@ -21,41 +21,16 @@ export class LinkBuilder {
   }
 
   /**
-   * Add a self link with a GET method to the link object.
+   * Add a self link to the link object.
    *
    * @param {string} [url=''] The URL for the self link.
+   * @param {string} method The CRUD method.
    */
-  addSelfLinkGetMethod(url = '') {
+  addSelfLink(url = '', method) {
     this.#links.self = {
       href: `${this.#baseUrl}${url}`,
       rel: 'self',
-      method: 'GET'
-    }
-  }
-
-  /**
-   * Add a self link with a POST method to the link object.
-   *
-   * @param {string} [url=''] The URL for the self link.
-   */
-  addSelfLinkPostMethod(url = '') {
-    this.#links.self = {
-      href: `${this.#baseUrl}${url}`,
-      rel: 'self',
-      method: 'POST'
-    }
-  }
-
-  /**
-   * Add a self link with a PUT method to the link object.
-   *
-   * @param {string} [url=''] The URL for the self link.
-   */
-  addSelfLinkPutMethod(url = '') {
-    this.#links.self = {
-      href: `${this.#baseUrl}${url}`,
-      rel: 'self',
-      method: 'PUT'
+      method
     }
   }
 
@@ -75,8 +50,8 @@ export class LinkBuilder {
    *
    * @param {string} [url=''] - The URL for the single article link.
    */
-  addSingleArticleLink(url = '') {
-    this.#links.post = {
+  addGetArticleLink(url = '') {
+    this.#links.article = {
       href: `${this.#baseUrl}${url}`,
       rel: 'article',
       method: 'GET'
@@ -89,9 +64,9 @@ export class LinkBuilder {
    * @param {string} [url=''] The URL for the article links.
    * @param {Array} posts An array of post objects.
    */
-  addArticleLinks(url = '', posts) {
-    this.#links.posts = posts.map((post) => ({
-      href: `${this.#baseUrl}${url}/${post.id}`,
+  addArticleLinks(url = '', articles) {
+    this.#links.articles = articles.map((article) => ({
+      href: `${this.#baseUrl}${url}/${article.id}`,
       rel: 'article',
       method: 'GET'
     }))
@@ -103,7 +78,7 @@ export class LinkBuilder {
    * @param {string} [url=''] The URL for the articles page link.
    */
   addArticlesPageLink(url = '') {
-    this.#links.post = {
+    this.#links.article = {
       href: `${this.#baseUrl}${url}`,
       rel: 'articles-page',
       method: 'GET'

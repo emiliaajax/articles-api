@@ -79,7 +79,7 @@ export class ArticlesController {
    * @param {Function} next Express next middleware function.
    */
   async find(req, res, next) {
-    this.#linkBuilder.addSelfLinkGetMethod(`${this.#endpoint}${req.url}`)
+    this.#linkBuilder.addSelfLink(`${this.#endpoint}${req.url}`, 'GET')
     this.#linkBuilder.addUpdateArticleLink(`${this.#endpoint}${req.url}`)
     this.#linkBuilder.addDeleteArticleLink(`${this.#endpoint}${req.url}`)
 
@@ -110,7 +110,7 @@ export class ArticlesController {
 
       const posts = await this.#articlesService.get(page, perPage)
 
-      this.#linkBuilder.addSelfLinkGetMethod(`${this.#endpoint}`)
+      this.#linkBuilder.addSelfLink(`${this.#endpoint}`, 'GET')
       this.#linkBuilder.addArticleLinks(`${this.#endpoint}`, posts)
 
       if (page > 1) {
@@ -149,9 +149,9 @@ export class ArticlesController {
         text: req.body.text
       })
 
-      this.#linkBuilder.addSelfLinkPostMethod()
+      this.#linkBuilder.addSelfLink(`${this.#endpoint}`, 'POST')
 
-      this.#linkBuilder.addSingleArticleLink(`${this.#endpoint}/${post.id}`)
+      this.#linkBuilder.addGetArticleLink(`${this.#endpoint}/${post.id}`)
       this.#linkBuilder.addUpdateArticleLink(`${this.#endpoint}/${post.id}`)
       this.#linkBuilder.addDeleteArticleLink(`${this.#endpoint}/${post.id}`)
 
@@ -189,8 +189,10 @@ export class ArticlesController {
     try {
     await this.#articlesService.update(req.params.id, req.body)
 
-    this.#linkBuilder.addSelfLinkPutMethod(`${this.#endpoint}/${req.params.id}`)
-    this.#linkBuilder.addSingleArticleLink(`${this.#endpoint}/${req.params.id}`)
+    this.#linkBuilder.addSelfLink(`${this.#endpoint}/${req.params.id}`, 'PUT')
+    this.#linkBuilder.addGetArticleLink(`${this.#endpoint}/${req.params.id}`)
+    this.#linkBuilder.addUpdateArticleLink(`${this.#endpoint}/${req.params.id}`)
+    this.#linkBuilder.addDeleteArticleLink(`${this.#endpoint}/${req.params.id}`)
 
     const response = {
       _links: this.#linkBuilder.build()
