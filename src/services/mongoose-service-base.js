@@ -1,3 +1,11 @@
+/**
+ * Module for the MongooseServiceBase.
+ *
+ * @author Mats Loock
+ * @author Emilia Hansson
+ * @version 2.0.0
+ */
+
 import { MongooseRepositoryBase } from '../repositories/mongoose-repository-base.js'
 
 /**

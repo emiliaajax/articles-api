@@ -1,3 +1,10 @@
+/**
+ * Module for UsersService.
+ *
+ * @author Emilia Hansson
+ * @version 1.0.0
+ */
+
 import { MongooseServiceBase } from './mongoose-service-base.js'
 import { UserRepository } from '../repositories/user-repository.js'
 import jwt from 'jsonwebtoken'

@@ -1,3 +1,10 @@
+/**
+ * Module for WebhooksService.
+ *
+ * @author Emilia Hansson
+ * @version 1.0.0
+ */
+
 import axios from 'axios'
 import { WebhookRepository } from '../repositories/webhook-repository.js'
 import { MongooseServiceBase } from './mongoose-service-base.js'

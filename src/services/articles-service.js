@@ -1,3 +1,10 @@
+/**
+ * Module for ArticlesService.
+ *
+ * @author Emilia Hansson
+ * @version 1.0.0
+ */
+
 import { MongooseServiceBase } from './mongoose-service-base.js'
 import { ArticleRepository } from '../repositories/article-repository.js'
 import jwt from 'jsonwebtoken'
