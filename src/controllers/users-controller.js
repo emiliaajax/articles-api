@@ -1,3 +1,10 @@
+/**
+ * Module for UsersController.
+ *
+ * @author Emilia Hansson
+ * @version 1.0.0
+ */
+
 import createError from 'http-errors'
 import { UsersService } from '../services/users-service.js'
 import { LinkBuilder } from '../util/link-builder.js'

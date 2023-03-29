@@ -1,3 +1,10 @@
+/**
+ * Module for HomeController.
+ *
+ * @author Emilia Hansson
+ * @version 1.0.0
+ */
+
 import { LinkBuilder } from '../util/link-builder.js'
 
 /**

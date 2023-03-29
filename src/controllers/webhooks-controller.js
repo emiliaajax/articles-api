@@ -1,3 +1,10 @@
+/**
+ * Module for WebhooksController.
+ *
+ * @author Emilia Hansson
+ * @version 1.0.0
+ */
+
 import { WebhooksService } from '../services/webhooks-service.js'
 
 /**

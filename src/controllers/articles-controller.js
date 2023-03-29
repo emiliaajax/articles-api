@@ -1,3 +1,10 @@
+/**
+ * Module for ArticlesController.
+ *
+ * @author Emilia Hansson
+ * @version 1.0.0
+ */
+
 import createError from 'http-errors'
 import { ArticlesService } from '../services/articles-service.js'
 import { WebhooksService } from '../services/webhooks-service.js'
