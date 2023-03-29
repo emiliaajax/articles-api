@@ -1,9 +1,9 @@
 import { MongooseServiceBase } from './mongoose-service-base.js'
-import { PostRepository } from '../repositories/post-repository.js'
+import { ArticleRepository } from '../repositories/article-repository.js'
 import jwt from 'jsonwebtoken'
 
-export class PostsService extends MongooseServiceBase {
-  constructor (repository = new PostRepository()) {
+export class ArticlesService extends MongooseServiceBase {
+  constructor (repository = new ArticleRepository()) {
     super(repository)
   }
 

@@ -1,14 +1,14 @@
 import { HomeController } from '../controllers/home-controller.js'
-import { PostsController } from '../controllers/posts-controller.js'
+import { ArticlesController } from '../controllers/articles-controller.js'
 import { UsersController } from '../controllers/users-controller.js'
 import { WebhooksController } from '../controllers/webhooks-controller.js'
-import { PostModel } from '../models/post-model.js'
+import { ArticleModel } from '../models/article-model.js'
 import { UserModel } from '../models/user-model.js'
 import { WebhookModel } from '../models/webhook-model.js'
-import { PostRepository } from '../repositories/post-repository.js'
+import { ArticleRepository } from '../repositories/article-repository.js'
 import { UserRepository } from '../repositories/user-repository.js'
 import { WebhookRepository } from '../repositories/webhook-repository.js'
-import { PostsService } from '../services/posts-service.js'
+import { ArticlesService } from '../services/articles-service.js'
 import { UsersService } from '../services/users-service.js'
 import { WebhooksService } from '../services/webhooks-service.js'
 import { IoCContainer } from '../util/ioc-container.js'
@@ -27,13 +27,13 @@ iocContainer.register('LinkBuilder', LinkBuilder, {
   ]
 })
 
-iocContainer.register('PostModelType', PostModel, { type: true })
+iocContainer.register('ArticleModelType', ArticleModel, { type: true })
 iocContainer.register('UserModelType', UserModel, { type: true })
 iocContainer.register('WebhookModelType', WebhookModel, { type: true })
 
-iocContainer.register('PostRepositorySingleton', PostRepository, {
+iocContainer.register('ArticleRepositorySingleton', ArticleRepository, {
   dependencies: [
-    'PostModelType'
+    'ArticleModelType'
   ],
   singleton: true
 })
@@ -52,9 +52,9 @@ iocContainer.register('WebhookRepositorySingleton', WebhookRepository, {
   singleton: true
 })
 
-iocContainer.register('PostsServiceSingleton', PostsService, {
+iocContainer.register('ArticlesServiceSingleton', ArticlesService, {
   dependencies: [
-    'PostRepositorySingleton'
+    'ArticleRepositorySingleton'
   ],
   singleton: true
 })
@@ -75,13 +75,15 @@ iocContainer.register('WebhooksServiceSingleton', WebhooksService, {
 
 iocContainer.register('HomeController', HomeController, {
   dependencies: [
-    'LinkBuilder'
+    'LinkBuilder',
+    'ArticlesEndpoint',
+    'UsersEndpoint'
   ]
 })
 
-iocContainer.register('PostsController', PostsController, {
+iocContainer.register('ArticlesController', ArticlesController, {
   dependencies: [
-    'PostsServiceSingleton',
+    'ArticlesServiceSingleton',
     'WebhooksServiceSingleton',
     'LinkBuilder',
     'ArticlesEndpoint'

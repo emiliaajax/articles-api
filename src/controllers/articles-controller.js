@@ -1,14 +1,21 @@
 import createError from 'http-errors'
+import { ArticlesService } from '../services/articles-service.js'
 import { LinkBuilder } from '../util/link-builder.js'
 
-export class PostsController {
-  #service
+export class ArticlesController {
+  #articlesService
   #webhooksService
   #linkBuilder
   #endpoint
 
-  constructor(service, webhooksService, linkBuilder = new LinkBuilder(process.env.BASE_URL), endpoint) {
-    this.#service = service
+  /**
+   * Initializes a new instance.
+   *
+   * @param {LinkBuilder} linkBuilder A link builder instantiated from a class with the same capabilites as LinkBuilder.
+   * @param {string} endpoint The endpoint.
+   */
+  constructor(articlesService, webhooksService, linkBuilder = new LinkBuilder(process.env.BASE_URL), endpoint) {
+    this.#articlesService = articlesService
     this.#webhooksService = webhooksService
     this.#linkBuilder = linkBuilder
     this.#endpoint = endpoint
@@ -16,7 +23,7 @@ export class PostsController {
 
   async loadPost(req, res, next, id) {
     try {
-      const post = await this.#service.getById(id)
+      const post = await this.#articlesService.getById(id)
 
       if (!post) {
         next(createError(404, 'Not found!'))
@@ -49,7 +56,7 @@ export class PostsController {
       const page = parseInt(req.query.page) || 1
       const perPage = parseInt(req.query.per_page) || 20
 
-      const posts = await this.#service.get(page, perPage)
+      const posts = await this.#articlesService.get(page, perPage)
 
       this.#linkBuilder.addSelfLinkGetMethod(`${this.#endpoint}`)
       this.#linkBuilder.addArticleLinks(`${this.#endpoint}`, posts)
@@ -58,7 +65,7 @@ export class PostsController {
         this.#linkBuilder.addPrevPageLink(`${this.#endpoint}/?page=${page - 1}&per_page=${perPage}}`)
       }
 
-      if (page < await this.#service.getTotalNumberOfPages(perPage)) {
+      if (page < await this.#articlesService.getTotalNumberOfPages(perPage)) {
         this.#linkBuilder.addNextPageLink(`${this.#endpoint}/?page=${page + 1}&per_page=${perPage}`)
       }
 
@@ -76,7 +83,7 @@ export class PostsController {
 
   async create(req, res, next) {
     try {
-      const post = await this.#service.insert({
+      const post = await this.#articlesService.insert({
         authorID: req.user.id,
         title: req.body.title,
         text: req.body.text
@@ -113,13 +120,12 @@ export class PostsController {
 
   async update(req, res, next) {
     try {
-    const updatedPost = this.#service.update(req.params.id)
+    await this.#articlesService.update(req.params.id, req.body)
 
-    this.#linkBuilder.addSelfLinkPutMethod(`${this.#endpoint}/${updatedPost.id}`)
-    this.#linkBuilder.addSingleArticleLink(`${this.#endpoint}/${updatedPost.id}`)
+    this.#linkBuilder.addSelfLinkPutMethod(`${this.#endpoint}/${req.params.id}`)
+    this.#linkBuilder.addSingleArticleLink(`${this.#endpoint}/${req.params.id}`)
 
     const response = {
-      updatedPost,
       _links: this.#linkBuilder.build()
     }
 
@@ -136,7 +142,7 @@ export class PostsController {
 
   async delete(req, res, next) {
     try {
-      await this.#service.delete(req.params.id)
+      await this.#articlesService.delete(req.params.id)
 
       res
         .status(204)
@@ -150,7 +156,7 @@ export class PostsController {
     try {
       const [authenticationScheme, token] = req.headers.authorization?.split(' ')
 
-      req.user = await this.#service.authenticateJWT(authenticationScheme, token)
+      req.user = await this.#articlesService.authenticateJWT(authenticationScheme, token)
 
       next()
     } catch (error) {

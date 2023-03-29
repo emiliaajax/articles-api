@@ -43,4 +43,4 @@ schema.set('timestamps', true)
 schema.set('toObject', convertOptions)
 schema.set('toJSON', convertOptions)
 
-export const PostModel = mongoose.model('Post', schema)
+export const ArticleModel = mongoose.model('Article', schema)
