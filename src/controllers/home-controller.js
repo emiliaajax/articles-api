@@ -1,5 +1,8 @@
 import { LinkBuilder } from '../util/link-builder.js'
 
+/**
+ * Encapsulates a controller.
+ */
 export class HomeController {
   /**
    * The link builder.

@@ -1,14 +1,33 @@
+import { WebhooksService } from '../services/webhooks-service.js'
 
+/**
+ * Encapsulates a controller.
+ */
 export class WebhooksController {
-  #service
+  /**
+   * The webhooks service.
+   */
+  #webhooksService
 
-  constructor(service) {
-    this.#service = service
+  /**
+   * Initializes a new instance.
+   * 
+   * @param {WebhooksService} webhooksService Instanse from a class with the same capabilities as a WebhooksService.
+   */
+  constructor(webhooksService) {
+    this.#webhooksService = webhooksService
   }
 
+  /**
+   * Registers a webhook.
+   * 
+   * @param {object} req Express request object.
+   * @param {object} res Express response object.
+   * @param {Function} next Express next middleware function.
+   */
   async register(req, res, next) {
     try {
-      await this.#service.insert(req.body.url)
+      await this.#webhooksService.insert(req.body.url)
 
       res
         .status(201)

@@ -3,6 +3,9 @@ import { ArticlesService } from '../services/articles-service.js'
 import { WebhooksService } from '../services/webhooks-service.js'
 import { LinkBuilder } from '../util/link-builder.js'
 
+/**
+ * Encapsulates a controller.
+ */
 export class ArticlesController {
   /**
    * The articles service.
@@ -26,7 +29,7 @@ export class ArticlesController {
    *
    * @param {ArticlesService} articlesService Instanse from a class with the same capabilities as a ArticlesService.
    * @param {WebhooksService} webhooksService Instanse from a class with the same capabilities as a WebhooksService.
-   * @param {LinkBuilder} linkBuilder Instansemfrom a class with the same capabilites as LinkBuilder.
+   * @param {LinkBuilder} linkBuilder Instanse from a class with the same capabilites as LinkBuilder.
    * @param {string} endpoint The endpoint to the articles.
    */
   constructor(articlesService, webhooksService, linkBuilder = new LinkBuilder(process.env.BASE_URL), endpoint) {

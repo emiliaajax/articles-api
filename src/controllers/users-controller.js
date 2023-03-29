@@ -1,19 +1,47 @@
 import createError from 'http-errors'
+import { UsersService } from '../services/users-service.js'
+import { LinkBuilder } from '../util/link-builder.js'
 
+/**
+ * Encapsulates a controller.
+ */
 export class UsersController {
-  #service
+  /**
+   * The users service.
+   */
+  #usersService
+  /**
+   * The link builder.
+   */
   #linkBuilder
+  /**
+   * The users endpoint.
+   */
   #endpoint
 
-  constructor (service, linkBuilder, endpoint) {
-    this.#service = service
+  /**
+   * Initializes a new instance.
+   *
+   * @param {UsersService} usersService Instanse from a class with the same capabilities as a UsersService.
+   * @param {LinkBuilder} linkBuilder Instanse from a class with the same capabilites as LinkBuilder.
+   * @param {string} endpoint The endpoint to the users.
+   */
+  constructor (usersService, linkBuilder, endpoint) {
+    this.#usersService = usersService
     this.#linkBuilder = linkBuilder
     this.#endpoint = endpoint
   }
 
+  /**
+   * Sends a JSON with access token and related links on successful login.
+   * 
+   * @param {object} req Express request object.
+   * @param {object} res Express response object.
+   * @param {Function} next Express next middleware function.
+   */
   async login(req, res, next) {
     try {
-      const accessToken = await this.#service.authenticate(req.body.email, req.body.password)
+      const accessToken = await this.#usersService.authenticate(req.body.email, req.body.password)
 
       this.#linkBuilder.addSelfLinkPostMethod(`${this.#endpoint}${req.route.path}`)
       this.#linkBuilder.addAPIEntrypointLink()
@@ -34,9 +62,16 @@ export class UsersController {
     }
   }
 
+  /**
+   * Sends a JSON with related links on successful registration.
+   * 
+   * @param {object} req Express request object.
+   * @param {object} res Express response object.
+   * @param {Function} next Express next middleware function.
+   */
   async register(req, res, next) {
     try {
-      await this.#service.insert({ email: req.body.email, password: req.body.password })
+      await this.#usersService.insert({ email: req.body.email, password: req.body.password })
   
       this.#linkBuilder.addSelfLinkPostMethod(`${this.#endpoint}${req.route.path}`)
       this.#linkBuilder.addLoginUserLink(`${this.#endpoint}/login`)
