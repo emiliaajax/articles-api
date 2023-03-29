@@ -1,31 +1,36 @@
-# API Documentation
+# API Endpoints
 
-### /
+## Entry Point
 
-###### GET /
+`GET /`
 Returns a JSON response containing links to articles, user registration and login and to create a new article.
 
-### /users
+## Users
 
-###### POST /register
-Registers a new user.
+`POST /users/register`
+Registers a user.
 
-###### POST /login
+`POST /users/login`
 Logs in an existing user and returns an access token.
 
-### /articles
+## Articles
 
-###### GET /
+`GET /articles`
 Returns a JSON response containing a list of articles with related links. Default page is 1. Default articles per page is 20. Maximum articles per page is 100.
 
-###### GET /:id
+`GET /articles/:id`
 Returns a JSON response containing one article with related links.
 
-###### POST /
+`POST /articles`
 Creates a new article and returns a JSON response containing the newly created article and related links.
 
-###### PUT /:id
+`PUT /articles/:id`
 Updates an existing article and returns a JSON response with related links.
 
-###### DELETE /:id
+`DELETE /articles:id`
 Deletes an existing article.
+
+## Webhooks
+
+`POST /webhooks`
+Registers a webhook.
