@@ -1,3 +1,4 @@
+import { HomeController } from '../controllers/home-controller.js'
 import { PostsController } from '../controllers/posts-controller.js'
 import { UsersController } from '../controllers/users-controller.js'
 import { WebhooksController } from '../controllers/webhooks-controller.js'
@@ -16,8 +17,15 @@ import { LinkBuilder } from '../util/link-builder.js'
 const iocContainer = new IoCContainer()
 
 iocContainer.register('ConnectionString', process.env.DB_CONNECTION_STRING)
+iocContainer.register('BaseURL', process.env.BASE_URL)
+iocContainer.register('ArticlesEndpoint', '/articles')
+iocContainer.register('UsersEndpoint', '/users')
 
-iocContainer.register('LinkBuilder', LinkBuilder)
+iocContainer.register('LinkBuilder', LinkBuilder, {
+  dependencies: [
+    'BaseURL'
+  ]
+})
 
 iocContainer.register('PostModelType', PostModel, { type: true })
 iocContainer.register('UserModelType', UserModel, { type: true })
@@ -65,18 +73,26 @@ iocContainer.register('WebhooksServiceSingleton', WebhooksService, {
   singleton: true
 })
 
+iocContainer.register('HomeController', HomeController, {
+  dependencies: [
+    'LinkBuilder'
+  ]
+})
+
 iocContainer.register('PostsController', PostsController, {
   dependencies: [
     'PostsServiceSingleton',
     'WebhooksServiceSingleton',
-    'LinkBuilder'
+    'LinkBuilder',
+    'ArticlesEndpoint'
   ]
 })
 
 iocContainer.register('UsersController', UsersController, {
   dependencies: [
     'UsersServiceSingleton',
-    'LinkBuilder'
+    'LinkBuilder',
+    'UsersEndpoint'
   ]
 })
 

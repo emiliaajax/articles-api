@@ -1,98 +1,119 @@
 
 export class LinkBuilder {
   #links = {}
+  #baseUrl
 
-  addSelfLinkGetMethod(url) {
+  constructor(baseUrl) {
+    this.#baseUrl = baseUrl
+  }
+
+  addSelfLinkGetMethod(url = '') {
     this.#links.self = {
-      href: url,
+      href: `${this.#baseUrl}${url}`,
       rel: 'self',
       method: 'GET'
     }
   }
 
-  addSelfLinkPostMethod(url) {
+  addSelfLinkPostMethod(url = '') {
     this.#links.self = {
-      href: url,
+      href: `${this.#baseUrl}${url}`,
       rel: 'self',
       method: 'POST'
     }
   }
 
-  addSelfLinkPutMethod(url) {
+  addSelfLinkPutMethod(url = '') {
     this.#links.self = {
-      href: url,
+      href: `${this.#baseUrl}${url}`,
       rel: 'self',
       method: 'PUT'
     }
   }
 
-  addSingleArticleLink(url) {
+  addAPIEntrypointLink() {
+    this.#links.api = {
+      href: this.#baseUrl,
+      rel: 'api-entrypoint',
+      method: 'GET'
+    }
+  }
+
+  addSingleArticleLink(url = '') {
     this.#links.post = {
-      href: url,
+      href: `${this.#baseUrl}${url}`,
       rel: 'article',
       method: 'GET'
     }
   }
 
-  addArticleLinks(url, posts) {
+  addArticleLinks(url = '', posts) {
     this.#links.posts = posts.map((post) => ({
-      href: `${url}/${post.id}`,
+      href: `${this.#baseUrl}${url}/${post.id}`,
       rel: 'article',
       method: 'GET'
     }))
   }
 
-  addPrevPageLink(url) {
+  addArticlesPageLink(url = '') {
+    this.#links.post = {
+      href: `${this.#baseUrl}${url}`,
+      rel: 'articles-page',
+      method: 'GET'
+    }
+  }
+
+  addPrevPageLink(url = '') {
     this.#links.prevPage = {
-      href: url,
+      href: `${this.#baseUrl}${url}`,
       rel: 'prev',
       method: 'GET'
     }
   }
 
-  addNextPageLink(url) {
+  addNextPageLink(url = '') {
     this.#links.nextPage = {
-      href: url,
+      href: `${this.#baseUrl}${url}`,
       rel: 'next',
       method: 'GET'
     }
   }
 
-  addCreateArticleLink(url) {
+  addCreateArticleLink(url = '') {
     this.#links.createArticle = {
-      href: url,
+      href: `${this.#baseUrl}${url}`,
       rel: 'create-article',
       method: 'POST'
     }
   }
 
-  addUpdateArticleLink(url) {
+  addUpdateArticleLink(url = '') {
     this.#links.updateArticle = {
-      href: url,
+      href: `${this.#baseUrl}${url}`,
       rel: 'update-article',
       method: 'PUT'
     }
   }
 
-  addDeleteArticleLink(url) {
+  addDeleteArticleLink(url = '') {
     this.#links.deleteArticle = {
-      href: url,
+      href: `${this.#baseUrl}${url}`,
       rel: 'delete-article',
       method: 'DELETE'
     }
   }
 
-  addRegisterUserLink(url) {
+  addRegisterUserLink(url = '') {
     this.#links.register = {
-      href: url,
+      href: `${this.#baseUrl}${url}`,
       rel: 'register',
       method: 'POST'
     }
   }
 
-  addLoginUserLink(url) {
+  addLoginUserLink(url = '') {
     this.#links.login = {
-      href: url,
+      href: `${this.#baseUrl}${url}`,
       rel: 'login',
       method: 'POST'
     }

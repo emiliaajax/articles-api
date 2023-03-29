@@ -1,14 +1,17 @@
 import createError from 'http-errors'
+import { LinkBuilder } from '../util/link-builder.js'
 
 export class PostsController {
   #service
   #webhooksService
   #linkBuilder
+  #endpoint
 
-  constructor(service, webhooksService, linkBuilder) {
+  constructor(service, webhooksService, linkBuilder = new LinkBuilder(process.env.BASE_URL), endpoint) {
     this.#service = service
     this.#webhooksService = webhooksService
     this.#linkBuilder = linkBuilder
+    this.#endpoint = endpoint
   }
 
   async loadPost(req, res, next, id) {
@@ -29,9 +32,9 @@ export class PostsController {
   }
 
   async find(req, res, next) {
-    this.#linkBuilder.addSelfLinkGetMethod(`${req.protocol}://${req.get('host')}${req.originalUrl}`)
-    this.#linkBuilder.addUpdateArticleLink(`${req.protocol}://${req.get('host')}${req.originalUrl}`)
-    this.#linkBuilder.addDeleteArticleLink(`${req.protocol}://${req.get('host')}${req.originalUrl}`)
+    this.#linkBuilder.addSelfLinkGetMethod(`${this.#endpoint}${req.url}`)
+    this.#linkBuilder.addUpdateArticleLink(`${this.#endpoint}${req.url}`)
+    this.#linkBuilder.addDeleteArticleLink(`${this.#endpoint}${req.url}`)
 
     const response = {
       post: req.post,
@@ -43,28 +46,20 @@ export class PostsController {
 
   async findAll(req, res, next) {
     try {
-      const hostUrl = `${req.protocol}://${req.get('host')}`
       const page = parseInt(req.query.page) || 1
       const perPage = parseInt(req.query.per_page) || 20
 
       const posts = await this.#service.get(page, perPage)
 
-      this.#linkBuilder.addSelfLinkGetMethod(`${hostUrl}${req.baseUrl}`)
-      this.#linkBuilder.addArticleLinks(`${hostUrl}${req.baseUrl}`, posts)
+      this.#linkBuilder.addSelfLinkGetMethod(`${this.#endpoint}`)
+      this.#linkBuilder.addArticleLinks(`${this.#endpoint}`, posts)
 
       if (page > 1) {
-        this.#linkBuilder.addPrevPageLink(`${hostUrl}${req.baseUrl}/?page=${page - 1}&per_page=${perPage}}`)
+        this.#linkBuilder.addPrevPageLink(`${this.#endpoint}/?page=${page - 1}&per_page=${perPage}}`)
       }
 
       if (page < await this.#service.getTotalNumberOfPages(perPage)) {
-        this.#linkBuilder.addNextPageLink(`${hostUrl}${req.baseUrl}/?page=${page + 1}&per_page=${perPage}`)
-      }
-
-      if (req.user) {
-        this.#linkBuilder.addCreateArticleLink(`${hostUrl}${req.baseUrl}/`)
-      } else {
-        this.#linkBuilder.addRegisterUserLink(`${hostUrl}${req.baseUrl}/users/register`)
-        this.#linkBuilder.addLoginUserLink(`${hostUrl}${req.baseUrl}/users/login`)
+        this.#linkBuilder.addNextPageLink(`${this.#endpoint}/?page=${page + 1}&per_page=${perPage}`)
       }
 
       const response = {
@@ -87,11 +82,11 @@ export class PostsController {
         text: req.body.text
       })
 
-      this.#linkBuilder.addSelfLinkPostMethod(`${req.protocol}://${req.get('host')}${req.baseUrl}/`)
+      this.#linkBuilder.addSelfLinkPostMethod()
 
-      this.#linkBuilder.addSingleArticleLink(`${req.protocol}://${req.get('host')}${req.baseUrl}/${post.id}`)
-      this.#linkBuilder.addUpdateArticleLink(`${req.protocol}://${req.get('host')}${req.baseUrl}/${post.id}`)
-      this.#linkBuilder.addDeleteArticleLink(`${req.protocol}://${req.get('host')}${req.baseUrl}/${post.id}`)
+      this.#linkBuilder.addSingleArticleLink(`${this.#endpoint}/${post.id}`)
+      this.#linkBuilder.addUpdateArticleLink(`${this.#endpoint}/${post.id}`)
+      this.#linkBuilder.addDeleteArticleLink(`${this.#endpoint}/${post.id}`)
 
       const response = {
         post,
@@ -120,8 +115,8 @@ export class PostsController {
     try {
     const updatedPost = this.#service.update(req.params.id)
 
-    this.#linkBuilder.addSelfLinkPutMethod(`${req.protocol}://${req.get('host')}${req.baseUrl}/${updatedPost.id}`)
-    this.#linkBuilder.addSingleArticleLink(`${req.protocol}://${req.get('host')}${req.baseUrl}/${updatedPost.id}`)
+    this.#linkBuilder.addSelfLinkPutMethod(`${this.#endpoint}/${updatedPost.id}`)
+    this.#linkBuilder.addSingleArticleLink(`${this.#endpoint}/${updatedPost.id}`)
 
     const response = {
       updatedPost,

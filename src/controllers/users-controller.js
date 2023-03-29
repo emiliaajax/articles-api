@@ -3,17 +3,20 @@ import createError from 'http-errors'
 export class UsersController {
   #service
   #linkBuilder
+  #endpoint
 
-  constructor (service, linkBuilder) {
+  constructor (service, linkBuilder, endpoint) {
     this.#service = service
     this.#linkBuilder = linkBuilder
+    this.#endpoint = endpoint
   }
 
   async login(req, res, next) {
     try {
       const accessToken = await this.#service.authenticate(req.body.email, req.body.password)
 
-      this.#linkBuilder.addSelfLinkPostMethod(`${req.protocol}://${req.get('host')}${req.baseUrl}${req.route.path}`)
+      this.#linkBuilder.addSelfLinkPostMethod(`${this.#endpoint}${req.route.path}`)
+      this.#linkBuilder.addAPIEntrypointLink()
 
       const response = {
         accessToken,
@@ -35,14 +38,12 @@ export class UsersController {
     try {
       await this.#service.insert({ email: req.body.email, password: req.body.password })
   
-      this.#linkBuilder.addSelfLinkPostMethod(`${req.protocol}://${req.get('host')}${req.baseUrl}${req.route.path}`)
-      this.#linkBuilder.addLoginUserLink(`${req.protocol}://${req.get('host')}${req.baseUrl}/login`)
+      this.#linkBuilder.addSelfLinkPostMethod(`${this.#endpoint}${req.route.path}`)
+      this.#linkBuilder.addLoginUserLink(`${this.#endpoint}/login`)
 
       const response = {
         _links: this.#linkBuilder.build()
       }
-
-      this.#linkBuilder.reset()
 
       res
         .status(201)
