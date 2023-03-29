@@ -103,12 +103,28 @@ export class PostsController {
         text: req.body.text
       })
 
-      if (post) {
-        await this.#webhooksService.send(post)
+      const response = {
+        post,
+        links: {
+          self: {
+            href: `${req.protocol}://${req.get('host')}${req.baseUrl}`,
+            rel: 'self',
+            method: 'POST'
+          },
+          post: {
+            href: `${req.protocol}://${req.get('host')}${req.baseUrl}/${post.id}`,
+            rel: 'new-post',
+            method: 'GET'
+          }
+        }
+      }
+
+      if (response) {
+        await this.#webhooksService.send(response)
       }
 
       const location = new URL(
-        `${req.protocol}://${req.get('host')}${req.baseUrl}/${post._id}`
+        `${req.protocol}://${req.get('host')}${req.baseUrl}/${post.id}`
       )
 
       res
