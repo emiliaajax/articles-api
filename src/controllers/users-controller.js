@@ -13,9 +13,16 @@ export class UsersController {
     try {
       const accessToken = await this.#service.authenticate(req.body.email, req.body.password)
 
+      this.#linkBuilder.addSelfLinkPostMethod(`${req.protocol}://${req.get('host')}${req.baseUrl}${req.route.path}`)
+
+      const response = {
+        accessToken,
+        _links: this.#linkBuilder.build()
+      }
+
       res
         .status(201)
-        .json(accessToken)
+        .json(response)
     } catch (error) {
       const err = createError(401)
       err.cause = error

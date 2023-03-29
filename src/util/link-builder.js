@@ -101,10 +101,7 @@ export class LinkBuilder {
   build() {
     const links = Object.assign({}, this.#links)
     this.#links = {}
+
     return links
   }
-
-  // reset() {
-  //   this.#links = {}
-  // }
 }

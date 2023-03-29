@@ -88,7 +88,10 @@ export class PostsController {
       })
 
       this.#linkBuilder.addSelfLinkPostMethod(`${req.protocol}://${req.get('host')}${req.baseUrl}/`)
+
       this.#linkBuilder.addSingleArticleLink(`${req.protocol}://${req.get('host')}${req.baseUrl}/${post.id}`)
+      this.#linkBuilder.addUpdateArticleLink(`${req.protocol}://${req.get('host')}${req.baseUrl}/${post.id}`)
+      this.#linkBuilder.addDeleteArticleLink(`${req.protocol}://${req.get('host')}${req.baseUrl}/${post.id}`)
 
       const response = {
         post,
