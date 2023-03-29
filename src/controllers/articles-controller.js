@@ -128,6 +128,7 @@ export class ArticlesController {
 
   /**
    * Sends a JSON response containing the newly created article and links to related resources.
+   * Sends a webhook article created event.
    * 
    * @param {object} req Express request object.
    * @param {object} res Express response object.
@@ -152,7 +153,7 @@ export class ArticlesController {
         _links: this.#linkBuilder.build()
       }
 
-      await this.#webhooksService.send(response)
+      await this.#webhooksService.send(response, 'article-created')
 
       const location = new URL(
         `${req.protocol}://${req.get('host')}${req.baseUrl}/${post.id}`
