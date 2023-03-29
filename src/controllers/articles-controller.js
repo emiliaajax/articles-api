@@ -230,7 +230,7 @@ export class ArticlesController {
     try {
       const [authenticationScheme, token] = req.headers.authorization?.split(' ')
 
-      req.user = await this.#articlesService.authenticateJWT(authenticationScheme, token)
+      req.user = this.#articlesService.authenticateJWT(authenticationScheme, token)
 
       next()
     } catch (error) {

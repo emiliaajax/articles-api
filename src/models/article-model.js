@@ -43,4 +43,5 @@ schema.set('timestamps', true)
 schema.set('toObject', convertOptions)
 schema.set('toJSON', convertOptions)
 
+// Creates a model using the schema.
 export const ArticleModel = mongoose.model('Article', schema)

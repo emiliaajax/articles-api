@@ -31,4 +31,5 @@ schema.set('timestamps', true)
 schema.set('toObject', convertOptions)
 schema.set('toJSON', convertOptions)
 
+// Creates a model using the schema.
 export const WebhookModel = mongoose.model('Webhook', schema)
