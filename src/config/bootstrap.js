@@ -75,7 +75,8 @@ iocContainer.register('PostsController', PostsController, {
 
 iocContainer.register('UsersController', UsersController, {
   dependencies: [
-    'UsersServiceSingleton'
+    'UsersServiceSingleton',
+    'LinkBuilder'
   ]
 })
 
