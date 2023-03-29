@@ -69,4 +69,8 @@ export class LinkBuilder {
   build() {
     return this.#links
   }
+
+  resetLinks() {
+    this.#links = {}
+  }
 }

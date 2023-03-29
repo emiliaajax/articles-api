@@ -36,6 +36,8 @@ export class PostsController {
       _links: this.#linkBuilder.build()
     }
 
+    this.#linkBuilder.reset()
+
     res.json(response)
   }
 
@@ -70,6 +72,8 @@ export class PostsController {
         _links: this.#linkBuilder.build()
       }
 
+      this.#linkBuilder.reset()
+
       res
         .json(response)
     } catch (error) {
@@ -92,6 +96,8 @@ export class PostsController {
         post,
         _links: this.#linkBuilder.build()
       }
+
+      this.#linkBuilder.reset()
 
       await this.#webhooksService.send(response)
 
