@@ -41,7 +41,8 @@ export class LinkBuilder {
     this.#links.api = {
       href: this.#baseUrl,
       rel: 'api-entrypoint',
-      method: 'GET'
+      method: 'GET',
+      authenticationRequired: false
     }
   }
 
@@ -54,7 +55,8 @@ export class LinkBuilder {
     this.#links.article = {
       href: `${this.#baseUrl}${url}`,
       rel: 'article',
-      method: 'GET'
+      method: 'GET',
+      authenticationRequired: false
     }
   }
 
@@ -68,7 +70,8 @@ export class LinkBuilder {
     this.#links.articles = articles.map((article) => ({
       href: `${this.#baseUrl}${url}/${article.id}`,
       rel: 'article',
-      method: 'GET'
+      method: 'GET',
+      authenticationRequired: false
     }))
   }
 
@@ -81,7 +84,8 @@ export class LinkBuilder {
     this.#links.articles = {
       href: `${this.#baseUrl}${url}`,
       rel: 'articles-page',
-      method: 'GET'
+      method: 'GET',
+      authenticationRequired: false
     }
   }
 
@@ -94,7 +98,8 @@ export class LinkBuilder {
     this.#links.prevPage = {
       href: `${this.#baseUrl}${url}`,
       rel: 'prev',
-      method: 'GET'
+      method: 'GET',
+      authenticationRequired: false
     }
   }
 
@@ -107,7 +112,22 @@ export class LinkBuilder {
     this.#links.nextPage = {
       href: `${this.#baseUrl}${url}`,
       rel: 'next',
-      method: 'GET'
+      method: 'GET',
+      authenticationRequired: false
+    }
+  }
+
+  /**
+   * Add a author link to the link object.
+   *
+   * @param {string} [url=''] The URL for the author link.
+   */
+  addAuthorLink(url = '') {
+    this.#links.author = {
+      href: `${this.#baseUrl}${url}`,
+      rel: 'article-author',
+      method: 'GET',
+      authenticationRequired: false
     }
   }
     
@@ -120,7 +140,8 @@ export class LinkBuilder {
     this.#links.createArticle = {
       href: `${this.#baseUrl}${url}`,
       rel: 'create-article',
-      method: 'POST'
+      method: 'POST',
+      authenticationRequired: true
     }
   }
 
@@ -133,7 +154,8 @@ export class LinkBuilder {
     this.#links.updateArticle = {
       href: `${this.#baseUrl}${url}`,
       rel: 'update-article',
-      method: 'PUT'
+      method: 'PUT',
+      authenticationRequired: true
     }
   }
 
@@ -146,7 +168,8 @@ export class LinkBuilder {
     this.#links.deleteArticle = {
       href: `${this.#baseUrl}${url}`,
       rel: 'delete-article',
-      method: 'DELETE'
+      method: 'DELETE',
+      authenticationRequired: true
     }
   }
 
@@ -159,7 +182,8 @@ export class LinkBuilder {
     this.#links.register = {
       href: `${this.#baseUrl}${url}`,
       rel: 'register',
-      method: 'POST'
+      method: 'POST',
+      authenticationRequired: false
     }
   }
 
@@ -172,7 +196,8 @@ export class LinkBuilder {
     this.#links.login = {
       href: `${this.#baseUrl}${url}`,
       rel: 'login',
-      method: 'POST'
+      method: 'POST',
+      authenticationRequired: false
     }
   }
 

@@ -75,6 +75,6 @@ export class MongooseServiceBase {
    * @returns {Promise<object>} Promise resolved with the removed document.
    */
   async delete (id) {
-    return this._repository.delete()
+    return this._repository.delete(id)
   }
 }

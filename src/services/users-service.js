@@ -23,6 +23,20 @@ export class UsersService extends MongooseServiceBase {
   }
 
   /**
+   * Returns a user by id.
+   * 
+   * @param {string} id The user id.
+   * @returns {Promise<Object} A promise resolved with the user's username.
+   */
+  async getById (id) {
+    const user = await this._repository.getById(id)
+  
+    return {
+      username: user.username 
+    }
+  }
+
+  /**
    * Authenticates a user and generates a JWT access token.
    *
    * @param {string} email The user email.
@@ -33,7 +47,9 @@ export class UsersService extends MongooseServiceBase {
     const user = await this._repository.authenticate(email, password)
 
     const payload = {
-      sub: user.id
+      sub: user.id,
+      username: user.username,
+      email: user.email
     }
 
     const accessToken = this.#generateAccessToken(payload)
