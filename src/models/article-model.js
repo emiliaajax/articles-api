@@ -5,6 +5,13 @@ const schema = new mongoose.Schema({
   authorID: {
     type: String
   },
+  category: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: 1,
+    maxlength: 200
+  },
   title: {
     type: String,
     required: true,

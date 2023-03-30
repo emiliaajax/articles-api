@@ -92,10 +92,17 @@ export class UsersController {
     res.json(response)
   }
 
+  /**
+   * Finds resources for a specific user by its id.
+   *
+   * @param {object} req Express request object. 
+   * @param {object} res Express response object.
+   * @param {Function} next Express next middleware function.
+   */
   async findResources(req, res, next) {
     try {
     const page = parseInt(req.query.page) || 1
-    const perPage = parseInt(req.query.per_page) || 20
+    const perPage = parseInt(req.query['per-page']) || 20
 
     const articles = await this.#articlesService.get(page, perPage, { authorID: req.params.id })
 
@@ -104,13 +111,13 @@ export class UsersController {
 
     if (page > 1) {
       this.#linkBuilder.addPrevPageLink(
-        `${this.#usersEndpoint}${this.#articlesEndpoint}/${req.params.id}/?page=${page - 1}&per_page=${perPage}}`
+        `${this.#usersEndpoint}${this.#articlesEndpoint}/${req.params.id}/?page=${page - 1}&per-page=${perPage}`
       )
     }
 
     if (page < await this.#articlesService.getTotalNumberOfPages(perPage)) {
       this.#linkBuilder.addNextPageLink(
-        `${this.#usersEndpoint}${this.#articlesEndpoint}/${req.params.id}/?page=${page + 1}&per_page=${perPage}`
+        `${this.#usersEndpoint}${this.#articlesEndpoint}/${req.params.id}/?page=${page + 1}&per-page=${perPage}`
       )
     }
 
@@ -183,8 +190,10 @@ export class UsersController {
     } catch (error) {
       let err = error
       if (err.code === 11000) {
+        let key = Object.keys(err.keyPattern)[0]
+        key = key.charAt(0).toUpperCase() + key.slice(1);
         err = createError(409)
-        err.message = 'Email is already in use'
+        err.message = `${key} is already in use`
       } else if (error.name === 'ValidationError') {
         err = createError(400)
       }

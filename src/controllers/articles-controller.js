@@ -127,7 +127,7 @@ export class ArticlesController {
   async findAll(req, res, next) {
     try {
       const page = parseInt(req.query.page) || 1
-      const perPage = parseInt(req.query.per_page) || 20
+      const perPage = parseInt(req.query['per-page']) || 20
 
       const articles = await this.#articlesService.get(page, perPage)
 
@@ -135,11 +135,11 @@ export class ArticlesController {
       this.#linkBuilder.addArticleLinks(`${this.#articlesEndpoint}`, articles)
 
       if (page > 1) {
-        this.#linkBuilder.addPrevPageLink(`${this.#articlesEndpoint}/?page=${page - 1}&per_page=${perPage}}`)
+        this.#linkBuilder.addPrevPageLink(`${this.#articlesEndpoint}/?page=${page - 1}&per-page=${perPage}`)
       }
 
       if (page < await this.#articlesService.getTotalNumberOfPages(perPage)) {
-        this.#linkBuilder.addNextPageLink(`${this.#articlesEndpoint}/?page=${page + 1}&per_page=${perPage}`)
+        this.#linkBuilder.addNextPageLink(`${this.#articlesEndpoint}/?page=${page + 1}&per-page=${perPage}`)
       }
 
       const response = {
@@ -167,6 +167,7 @@ export class ArticlesController {
       const article = await this.#articlesService.insert({
         authorID: req.user.id,
         title: req.body.title,
+        category: req.body.category,
         text: req.body.text
       })
 
