@@ -78,7 +78,8 @@ export class ArticlesService extends MongooseServiceBase {
     )
 
     return {
-      id: payload.sub
+      id: payload.sub,
+      username: payload.username
     }
   }
 }

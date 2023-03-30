@@ -8,6 +8,7 @@
 import axios from 'axios'
 import { WebhookRepository } from '../repositories/webhook-repository.js'
 import { MongooseServiceBase } from './mongoose-service-base.js'
+import jwt from 'jsonwebtoken'
 
 /**
  * Encapsulates a service.
@@ -18,11 +19,11 @@ export class WebhooksService extends MongooseServiceBase {
    *
    * @param {WebhookRepository} [repository=new WebhookRepository()] Instanse from a class with the same capabilities as a WebhookRepository.
    */
-  constructor (repository = new WebhookRepository()) {
+  constructor(repository = new WebhookRepository()) {
     super(repository)
   }
 
-   /**
+  /**
    * Inserts a new webhook url.
    *
    * @param {string} data The webhook url.
@@ -55,5 +56,31 @@ export class WebhooksService extends MongooseServiceBase {
         throw new Error('Failed to send event to webhook')
       }
     }))
+  }
+
+  /**
+   * Authenticates a JWT and returns the payload.
+   *
+   * @param {string} authenticationScheme The authentication scheme used to sign the token.
+   * @param {string} token The JWT to authenticate.
+   * @returns {Object} The payload of the JWT.
+   * @throws {Error} If the authentication scheme is invalid or the JWT signature cannot be verified.
+   */
+  authenticateJWT(authenticationScheme, token) {
+    if (authenticationScheme !== 'Bearer') {
+      throw new Error('Invalid authentication scheme')
+    }
+
+    const payload = jwt.verify(token,
+      Buffer.from(process.env.PUBLIC_KEY, 'base64').toString('ascii'),
+      {
+        algorithms: 'RS256'
+      }
+    )
+
+    return {
+      id: payload.sub,
+      username: payload.username
+    }
   }
 }

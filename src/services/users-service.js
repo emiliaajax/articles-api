@@ -35,7 +35,6 @@ export class UsersService extends MongooseServiceBase {
     const payload = {
       sub: user.id,
       username: user.username,
-      email: user.email
     }
 
     const accessToken = this.#generateAccessToken(payload)
