@@ -16,21 +16,25 @@ import { LinkBuilder } from '../util/link-builder.js'
 
 const iocContainer = new IoCContainer()
 
+// Register strings
 iocContainer.register('ConnectionString', process.env.DB_CONNECTION_STRING)
 iocContainer.register('BaseURL', process.env.BASE_URL)
 iocContainer.register('ArticlesEndpoint', '/articles')
 iocContainer.register('UsersEndpoint', '/users')
 
+// Register LinkBuilder
 iocContainer.register('LinkBuilder', LinkBuilder, {
   dependencies: [
     'BaseURL'
   ]
 })
 
+// Register models
 iocContainer.register('ArticleModelType', ArticleModel, { type: true })
 iocContainer.register('UserModelType', UserModel, { type: true })
 iocContainer.register('WebhookModelType', WebhookModel, { type: true })
 
+// Register repositories
 iocContainer.register('ArticleRepositorySingleton', ArticleRepository, {
   dependencies: [
     'ArticleModelType'
@@ -52,6 +56,7 @@ iocContainer.register('WebhookRepositorySingleton', WebhookRepository, {
   singleton: true
 })
 
+// Register services
 iocContainer.register('ArticlesServiceSingleton', ArticlesService, {
   dependencies: [
     'ArticleRepositorySingleton'
@@ -73,6 +78,7 @@ iocContainer.register('WebhooksServiceSingleton', WebhooksService, {
   singleton: true
 })
 
+// Register controllers
 iocContainer.register('HomeController', HomeController, {
   dependencies: [
     'LinkBuilder',
@@ -86,7 +92,8 @@ iocContainer.register('ArticlesController', ArticlesController, {
     'ArticlesServiceSingleton',
     'WebhooksServiceSingleton',
     'LinkBuilder',
-    'ArticlesEndpoint'
+    'ArticlesEndpoint',
+    'UsersEndpoint'
   ]
 })
 
@@ -106,4 +113,5 @@ iocContainer.register('WebhooksController', WebhooksController, {
   ]
 })
 
+// Export container
 export const container = Object.freeze(iocContainer)

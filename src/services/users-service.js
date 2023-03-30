@@ -47,7 +47,9 @@ export class UsersService extends MongooseServiceBase {
     const user = await this._repository.authenticate(email, password)
 
     const payload = {
-      sub: user.id
+      sub: user.id,
+      username: user.username,
+      email: user.email
     }
 
     const accessToken = this.#generateAccessToken(payload)

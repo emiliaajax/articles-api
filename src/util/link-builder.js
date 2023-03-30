@@ -110,6 +110,19 @@ export class LinkBuilder {
       method: 'GET'
     }
   }
+
+  /**
+   * Add a author link to the link object.
+   *
+   * @param {string} [url=''] The URL for the author link.
+   */
+  addAuthorLink(url = '') {
+    this.#links.author = {
+      href: `${this.#baseUrl}${url}`,
+      rel: 'article-author',
+      method: 'GET'
+    }
+  }
     
   /**
    * Add a create article link to the link object.
