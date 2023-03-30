@@ -85,7 +85,7 @@ export class UsersController {
     this.#linkBuilder.addSelfLink(`${this.#usersEndpoint}${req.url}`, 'GET')
 
     const response = {
-      user: req.user,
+      user: req.user.username,
       _links: this.#linkBuilder.build()
     }
 
