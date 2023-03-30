@@ -93,8 +93,10 @@ iocContainer.register('ArticlesController', ArticlesController, {
 iocContainer.register('UsersController', UsersController, {
   dependencies: [
     'UsersServiceSingleton',
+    'ArticlesServiceSingleton',
     'LinkBuilder',
-    'UsersEndpoint'
+    'UsersEndpoint',
+    'ArticlesEndpoint'
   ]
 })
 

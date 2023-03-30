@@ -3,6 +3,13 @@ import bcrypt from 'bcryptjs'
 import validator from 'validator'
 
 const schema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    validate: [validator.isAlphanumeric, 'Usernames can only contain letters and numbers']
+  },
   email: {
     type: String,
     required: true,

@@ -30,12 +30,11 @@ export class ArticlesService extends MongooseServiceBase {
    * @returns {Promise<object>} A Promise resolved with all articles.
    * @override
    */
-  async get (page, perPage) {
+  async get (page, perPage, filter = {}) {
     if (perPage > 100) {
       perPage = 100
     }
 
-    const filter = {}
     const projection = {}
     const options = {
       limit: perPage,
