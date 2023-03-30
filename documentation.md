@@ -13,10 +13,10 @@ Registers a user.
 `POST /users/login`   
 Logs in an existing user and returns an access token.
 
-`GET /users/:id`
+`GET /users/:id`   
 Gets the username of the user with the id parameter.
 
-`GET /users/:id/articles`
+`GET /users/:id/articles`   
 Get the articles created by the user with the id parameter.
 
 ## Articles
