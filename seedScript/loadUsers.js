@@ -4,7 +4,7 @@
 import axios from 'axios'
 import { promises as fs } from 'fs'
 
-const API_URL = 'http://localhost:5012/api/v1'
+const API_URL = 'https://cscloud8-98.lnu.se/articles-api/api/v1/'
 
 async function registerUsers() {
   try {
