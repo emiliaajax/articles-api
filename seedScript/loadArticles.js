@@ -24,7 +24,7 @@ async function createArticles() {
         const articlesData = await fs.readFile('resources/articles.json')
         const articles = JSON.parse(articlesData);
 
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 2; i++) {
           const article = articles[Math.floor(Math.random() * articles.length)]
 
           const response = await axios.post(`${API_URL}/articles`, {

@@ -1,0 +1,736 @@
+{
+	"info": {
+		"_postman_id": "b7fd430d-04b5-4527-a9ae-dfbbf7915455",
+		"name": "Article API Prod",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "API Entrypoint",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all articles",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/articles",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"articles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Kari: Register user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"karinordmann\",\n    \"email\": \"karinordmann@mail.com\",\n    \"password\": \"prettylongpassword123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/users/register",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ola: Register user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"olanordmann\",\n    \"email\": \"olanordmann@mail.com\",\n    \"password\": \"prettylongpassword123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/users/register",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Kari: Username taken",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"karinordmann\",\n    \"email\": \"karinordmann_igjen@mail.com\",\n    \"password\": \"prettylongpassword123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/users/register",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Kari: Email already in use",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"karinordmann123\",\n    \"email\": \"karinordmann@mail.com\",\n    \"password\": \"prettylongpassword123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/users/register",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Kari: Login user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"karinordmann@mail.com\",\n    \"password\": \"prettylongpassword123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/users/login",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ola: Login user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"olanordmann@mail.com\",\n    \"password\": \"prettylongpassword123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/users/login",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Kari: Create article",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDI2MzE3NDhiMzE0NmU1MTc3ZmQ2ZjkiLCJ1c2VybmFtZSI6Imthcmlub3JkbWFubiIsImlhdCI6MTY4MDIyNDY0MiwiZXhwIjoxNjgwMjI2NjQyfQ.kptYCbCofsQlt-UXkiZxoEhp9kBzNOY047b5ofMbcg5AX05MYDLWBhyNzvMHcaQaUd2my9qZeyJIJJaj8HBc-rXDVnTP5JQgNZ7ab4wUHU_QKDHo_quNzVP9RS9-Q1K_jpOeoLUYo5y47hEHqRPImQA5r7MOkhjxE3fKjr6ns40dKWY1JUkBGIT94izvD_0ZyGn4oKFWHTqM8Ap-X5x_yHqjLw13XO6X7npM7j5ZainKUt5INZEUT474DEW1okMDDf2Hird0jv2Ei7OrMJABTOF7Zp2VgID5q9VJi7UvIil_SZvzj_0pv6A1362vWVN2cQPDRkO_hQa8lTAMbnr0Iw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"ChatGPT provides cleaner code than Copilot\",\n    \"category\": \"ChatGPT\",\n    \"text\": \"ChatGPT provides cleaner code than Copilot according to a study made by bachelor thesis students on Linneaus University\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/articles",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"articles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ola: Create article",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDI2MzE3ODhiMzE0NmU1MTc3ZmQ2ZmMiLCJ1c2VybmFtZSI6Im9sYW5vcmRtYW5uIiwiaWF0IjoxNjgwMjI0Nzg4LCJleHAiOjE2ODAyMjY3ODh9.g56NSPopysCiXzZpRq-vVldgdGoJixMmII7eLmGF-67Uno7EY9iOD-CXs3TrlOUj1-efB4RmJ6E1urBZYc-mC7rQVpcmwLIpKp1dLO8f_fqiDnSKLS5uNVSywpKvBM6Nf6upnSX5vanAZu0-7ulF7PET7Dh_hvCLrl8FgXT6u38qbHRG6ZkTTczbzfdPlBYHWC4Mxm7HHA7xnfbeY8RH63yxiTF06RvjGAdh-srGTNU1ZpWKVPSUPgLNwMLx-gycwMVxA8SlVKq5qsR556AYPNvwc0brpicxz2LNKDpyKlRmRmez6E5HoE6zOQoXaXkXFe1L-VYRkIZt_mUPgcQHOg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"No significant difference in code correctness between ChatGPT and Copilot\",\n    \"category\": \"AI\",\n    \"text\": \"There's so far not any statistically significant difference between ChatGPT and Copilot in code correctness\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/articles",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"articles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Anonymous: Create article",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"ChatGPT provides cleaner code than Copilot\",\n    \"category\": \"ChatGPT\",\n    \"text\": \"ChatGPT provides cleaner code than Copilot according to a study made by bachelor thesis students on Linneaus University\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/articles",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"articles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Emilia: Login user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"emilia@mail.com\",\n    \"password\": \"prettylongpassword123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/users/login",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Emilia: Update own article",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDI2MjU0MDU0YmE5ZTBkZTU0YzExMjUiLCJ1c2VybmFtZSI6ImV3aWxpYSIsImlhdCI6MTY4MDIyMTUyNiwiZXhwIjoxNjgwMjIzNTI2fQ.nc6c0zE6h5JnbRlP2UnVcPAOxWq0uiQwBMMRz_8QufMv1vHYmOWp6cGSTldF_KtJ_sCObywwPUqE0mNHL8PjLCF-JHznISoLFx7xBIlZo3mUD9WCO2TzS8-Vf3TriUgAXTjsIGR46meT4CAL_lXfiOp4d0xvHSySvbu8F_NcfZyt_gYG1Ae-XK7UQ2M5cA8ifshu05gtNY0rhNOFbbhkULaxi0oXpQa4zyY8X0_p7jVMdvwLpdT0eThOaj-J0plF7-7nuyeeLX8_e_Y8VFhzYyBdAlWWX_rtCvniyBlBIYcJkizYhZquYgQGsMZ7w7uqiFFTKYXfkuuIAH15u1icJw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"I HAVE BEEN CHANGED!\",\n    \"text\": \"Hello you beautiful API! You've got some potential, don't ya?\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/articles/642634cf8b3146e5177fdb0e",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"articles",
+						"642634cf8b3146e5177fdb0e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ola: Update Emilias article",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDI2MjU0NzU0YmE5ZTBkZTU0YzExMjgiLCJ1c2VybmFtZSI6ImFuZGVuIiwiaWF0IjoxNjgwMjIxNTMwLCJleHAiOjE2ODAyMjM1MzB9.ARk1zLQffdMCXIEV96p7W4z6XRaFa74hp6HMIFK1uQqrXLhvOHrejWJ73bb1AHOrRXm8hectvMpt4EJ9J7kt1TulNP2dMlJA2axMeM6AmjlGXdqgaCsjLtMJUhe4n4CJVXl88e5fa8OMGoEy0FFg-eolGmo75_xNdTDHtB9--oiueIxbQQAG74i6IoB78XA2bNt1ViWtcJFITj6_on4g3oFockIOdedpMHqjJGclMxA0-U8-ynbWWr99iDjbsUG1lxiPsREokUcIgpT9QvJ5QKeysSxmGGrnhuGqL4BK1TFeYqTeyAjqoTFG1q7_hK_q0-oVyIqwpZNr0Acl1fgClA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"I HAVE BEEN CHANGED!\",\n    \"text\": \"Hello you beautiful API! You've got some potential, don't ya?\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/articles/642634cf8b3146e5177fdb0e",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"articles",
+						"642634cf8b3146e5177fdb0e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Anonymous: Update Emilias article",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"I HAVE BEEN CHANGED!\",\n    \"text\": \"Hello you beautiful API! You've got some potential, don't ya?\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/articles/642634cf8b3146e5177fdb0e",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"articles",
+						"642634cf8b3146e5177fdb0e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Anonymous: Delete Emilias article",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/articles/642634cf8b3146e5177fdb0e",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"articles",
+						"642634cf8b3146e5177fdb0e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ola: Delete Emilias article",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDI2MjU0NzU0YmE5ZTBkZTU0YzExMjgiLCJ1c2VybmFtZSI6ImFuZGVuIiwiaWF0IjoxNjgwMjIxNTMwLCJleHAiOjE2ODAyMjM1MzB9.ARk1zLQffdMCXIEV96p7W4z6XRaFa74hp6HMIFK1uQqrXLhvOHrejWJ73bb1AHOrRXm8hectvMpt4EJ9J7kt1TulNP2dMlJA2axMeM6AmjlGXdqgaCsjLtMJUhe4n4CJVXl88e5fa8OMGoEy0FFg-eolGmo75_xNdTDHtB9--oiueIxbQQAG74i6IoB78XA2bNt1ViWtcJFITj6_on4g3oFockIOdedpMHqjJGclMxA0-U8-ynbWWr99iDjbsUG1lxiPsREokUcIgpT9QvJ5QKeysSxmGGrnhuGqL4BK1TFeYqTeyAjqoTFG1q7_hK_q0-oVyIqwpZNr0Acl1fgClA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/articles/642634cf8b3146e5177fdb0e",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"articles",
+						"642634cf8b3146e5177fdb0e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Emilia: Delete own article",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDI2MjU0MDU0YmE5ZTBkZTU0YzExMjUiLCJ1c2VybmFtZSI6ImV3aWxpYSIsImlhdCI6MTY4MDIyMTUyNiwiZXhwIjoxNjgwMjIzNTI2fQ.nc6c0zE6h5JnbRlP2UnVcPAOxWq0uiQwBMMRz_8QufMv1vHYmOWp6cGSTldF_KtJ_sCObywwPUqE0mNHL8PjLCF-JHznISoLFx7xBIlZo3mUD9WCO2TzS8-Vf3TriUgAXTjsIGR46meT4CAL_lXfiOp4d0xvHSySvbu8F_NcfZyt_gYG1Ae-XK7UQ2M5cA8ifshu05gtNY0rhNOFbbhkULaxi0oXpQa4zyY8X0_p7jVMdvwLpdT0eThOaj-J0plF7-7nuyeeLX8_e_Y8VFhzYyBdAlWWX_rtCvniyBlBIYcJkizYhZquYgQGsMZ7w7uqiFFTKYXfkuuIAH15u1icJw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/articles/642634cf8b3146e5177fdb0e",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"articles",
+						"642634cf8b3146e5177fdb0e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user info (as of now, just the username)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/users/642634528b3146e5177fdb08",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"users",
+						"642634528b3146e5177fdb08"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get articles created by author",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/users/642634528b3146e5177fdb08/articles",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"users",
+						"642634528b3146e5177fdb08",
+						"articles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Kari: Register webhook",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NDI2MzE3NDhiMzE0NmU1MTc3ZmQ2ZjkiLCJ1c2VybmFtZSI6Imthcmlub3JkbWFubiIsImlhdCI6MTY4MDIyNDY0MiwiZXhwIjoxNjgwMjI2NjQyfQ.kptYCbCofsQlt-UXkiZxoEhp9kBzNOY047b5ofMbcg5AX05MYDLWBhyNzvMHcaQaUd2my9qZeyJIJJaj8HBc-rXDVnTP5JQgNZ7ab4wUHU_QKDHo_quNzVP9RS9-Q1K_jpOeoLUYo5y47hEHqRPImQA5r7MOkhjxE3fKjr6ns40dKWY1JUkBGIT94izvD_0ZyGn4oKFWHTqM8Ap-X5x_yHqjLw13XO6X7npM7j5ZainKUt5INZEUT474DEW1okMDDf2Hird0jv2Ei7OrMJABTOF7Zp2VgID5q9VJi7UvIil_SZvzj_0pv6A1362vWVN2cQPDRkO_hQa8lTAMbnr0Iw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"url\": \"http://yourwebhookurl.site\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/webhooks",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"webhooks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Anonymous: Register webhook",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"url\": \"http://yourwebhookurl.site\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://cscloud8-98.lnu.se/articles-api/api/v1/webhooks",
+					"protocol": "https",
+					"host": [
+						"cscloud8-98",
+						"lnu",
+						"se"
+					],
+					"path": [
+						"articles-api",
+						"api",
+						"v1",
+						"webhooks"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
