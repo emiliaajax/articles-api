@@ -114,7 +114,10 @@ export class ArticlesController {
 
   /**
    * Sends a JSON response containing articles for page with a specific number of articles per page 
-   * and links to related resources.
+   * and links to related resources. 
+   * 
+   * Note! The paging has been implemented with the help of ChatGPT, however,
+   * the solution has been modified and refactored.
    *
    * Default page is 1.
    * Default articles per page is 20.
